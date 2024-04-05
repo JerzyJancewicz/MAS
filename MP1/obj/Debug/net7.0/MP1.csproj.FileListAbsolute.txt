@@ -1,0 +1,15 @@
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\bin\Debug\net7.0\MP1.exe
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\bin\Debug\net7.0\MP1.deps.json
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\bin\Debug\net7.0\MP1.runtimeconfig.json
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\bin\Debug\net7.0\MP1.dll
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\bin\Debug\net7.0\MP1.pdb
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.csproj.AssemblyReference.cache
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.GeneratedMSBuildEditorConfig.editorconfig
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.AssemblyInfoInputs.cache
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.AssemblyInfo.cs
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.csproj.CoreCompileInputs.cache
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.dll
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\refint\MP1.dll
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.pdb
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\MP1.genruntimeconfig.cache
+F:\PROJEKTY\C#Projects\mas\MAS\MP1\obj\Debug\net7.0\ref\MP1.dll
