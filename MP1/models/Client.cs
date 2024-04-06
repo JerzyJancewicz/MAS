@@ -14,7 +14,7 @@ namespace MP1.models
         private int _id = 0;
         private static int nextId = 1;
         // atr. zlozony
-        private Address address = new Address();
+        public Address address { get; set; }
         // atr. opcjonalny
         private string Email = "";
         // atr. powtarzalny
