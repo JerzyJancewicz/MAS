@@ -11,7 +11,6 @@ namespace MP1.models
     {
         public string _city;
         public string _street;
-        ValidateAddress validateAddress = new ValidateAddress();
         public string City
         {
             get { return _city; }
@@ -45,10 +44,11 @@ namespace MP1.models
 
         public Address(string street, string city)
         {
-            validateAddress.Street(street);
-            validateAddress.City(city);
+            ValidateAddress.Street(street);
+            ValidateAddress.City(city);
             _street = street;
             _city = city;
         }
+        public Address() { }
     }
 }

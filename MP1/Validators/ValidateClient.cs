@@ -35,7 +35,7 @@ namespace MP1.Validators
             }
 
             var tmp = phoneNumbers.FirstOrDefault(e => e.Equals(phoneNumber));
-            if (tmp is null)
+            if (tmp is null || tmp.Count() == 0)
             {
                 new ArgumentException("There is no such a number in phone Numbers");
             }
@@ -51,7 +51,7 @@ namespace MP1.Validators
 
         public static void Email(string? email)
         {
-            var regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\r\n");
+            var regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
             if (email is not null)
             {
                 if (!regex.IsMatch(email))

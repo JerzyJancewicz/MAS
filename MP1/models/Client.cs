@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -13,47 +14,51 @@ namespace MP1.models
 {
     public class Client
     {
-        private static List<Client> _clients = new List<Client>();
+        private static List<Client> clients = new List<Client>();
 
-        private int _Id = 0; // Ekst. trwałości
+        private int id = 0; // Ekst. trwałości
         private static int nextId = 1;
 
-        private string _Name;
-        private string _Surname;
-        private string? _Email = null; // atr. opcjonalny
-        private Address Address { get; set; } // atr. zlozony
-        private List<string> _PhoneNumbers = new List<string>(); // atr. powtarzalny
+        private string name;
+        private string surname;
+        private string? email = null; // atr. opcjonalny
+        private Address address { get; set; } // atr. zlozony
+        private List<string> phoneNumbers = new List<string>(); // atr. powtarzalny
 
-        private static int _NumbersOfClient;// atr klasowy
-        private string FullName = ""; // atr pochodny
+        private static int numbersOfClient;// atr klasowy
+        private string fullName = ""; // atr pochodny
 
-        // mtd klasowa
-        public Client(string name, string surname, string phoneNumber, Address address)
+        public Client()
         {
-            Validate(name, surname, phoneNumber, address);
-
-            _Name = name;
-            _Surname = surname;
-            Address = address;
-            _PhoneNumbers.Add(phoneNumber);
-
-            InitializeVariables(_Name, _Surname);
         }
-        public Client(string name, string surname, string phoneNumber, Address address, string email) // przeciazenie
+        public Client(string Name, string Surname, string PhoneNumber, Address Address)
         {
-            Validate(name, surname, phoneNumber, address, email);
+            Validate(Name, Surname, PhoneNumber, Address);
 
-            _Name = name;
-            _Surname = surname;
-            _Email = email;
-            Address = address;
-            _PhoneNumbers.Add(phoneNumber);
+            name = Name;
+            surname = Surname;
+            address = Address;
+            phoneNumbers.Add(PhoneNumber);
 
-            InitializeVariables(_Name, _Surname);
+            InitializeVariables(Name, Surname);
+            clients.Add(this);
+        }
+        public Client(string Name, string Surname, string PhoneNumber, Address Address, string Email) // przeciazenie
+        {
+            Validate(Name, Surname, PhoneNumber, Address, Email);
+
+            name = Name;
+            surname = Surname;
+            address = Address;
+            email = Email;
+            phoneNumbers.Add(PhoneNumber);
+
+            InitializeVariables(Name, Surname);
+            clients.Add(this);
         }
 
         private static void Validate(string name, string surname, string phoneNumber, Address address)
-        {
+         {
             ValidateClient.Name(name);
             ValidateClient.Surname(surname);
             ValidateClient.PhoneNumber(phoneNumber);
@@ -62,7 +67,7 @@ namespace MP1.models
             ValidateAddress.Street(address.Street);
 
         }
-        private void Validate(string name, string surname, string phoneNumber, Address address, string email)
+        private static void Validate(string name, string surname, string phoneNumber, Address address, string email)
         {
             ValidateClient.Name(name);
             ValidateClient.Surname(surname);
@@ -75,72 +80,82 @@ namespace MP1.models
 
         private void InitializeVariables(string name, string surname)
         {
-            _Id = nextId++;
-            _NumbersOfClient++;
-            _clients.Add(this);
-            FullName = CreateFullName(name, surname);
+            id = nextId++;
+            numbersOfClient++;
         }
 
         private string CreateFullName(string name, string surname)
         {
             return name + " " + surname;
         }
-
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                ValidateClient.Name(value);
+                name = value;
+            }
+        }
+        public string Surname
+        {
+            get { return surname; }
+            set
+            {
+                ValidateClient.Surname(value);
+                surname = value;
+            }
+        }
+        public string? Email
+        {
+            get { return email; }
+            set
+            {
+                ValidateClient.Email(value);
+                email = value;
+            }
+        }
+        public Address Address
+        {
+            get { return address; }
+        }
+        public int Id
+        {
+            get { return id; }
+        }
+        public ReadOnlyCollection<string> PhoneNumbers
+        {
+            get { return new ReadOnlyCollection<string>(phoneNumbers); }
+        }
+        public int NumbersOfClient
+        {
+            get { return numbersOfClient; }
+            set { numbersOfClient = value; }
+        }
+        public string FullName
+        {
+            get
+            {
+                var fullNameCreate = CreateFullName(name, Surname);
+                return fullNameCreate;
+            }
+        }
         public void AddPhoneNumber(string phoneNumber)
         {
             ValidateClient.PhoneNumber(phoneNumber);
-            _PhoneNumbers.Add(phoneNumber);
+            phoneNumbers.Add(phoneNumber);
         }
-
         public void RemovePhoneNumber(string phoneNumber)
         {
             ValidateClient.PhoneNumber(phoneNumber);
-            ValidateClient.PhoneNumbersList(phoneNumber, _PhoneNumbers);
-            _PhoneNumbers.Remove(phoneNumber);
+            ValidateClient.PhoneNumbersList(phoneNumber, phoneNumbers);
+            phoneNumbers.Remove(phoneNumber);
         }
 
-        public ReadOnlyCollection<string> GetPhoneNumbers()
-        {
-            return new ReadOnlyCollection<string>(_PhoneNumbers);
-        }
-
-        public void SetName(string name)
-        {
-            ValidateClient.Name(name);
-            _Name = name;
-        }
-        public string GetName()
-        {
-            return _Name;
-        }
-        public void SetSurname(string surname)
-        {
-            ValidateClient.Surname(surname);
-            _Surname = surname;
-        }
-        public string GetSurname()
-        {
-            return _Surname;
-        }
-
-        public void SetEmail(string email)
-        {
-            ValidateClient.Email(email);
-            _Email = email;
-        }
-        public string GetEmail()
-        {
-            return _Email ?? "";
-        }
-
+        // mtd klasowa
         public static ReadOnlyCollection<Client> GetClients()
         {
-            return new ReadOnlyCollection<Client>(_clients);
-        }
-
-        public static int getNumbersOfClients()
-        {
-            return _NumbersOfClient;
+            return new ReadOnlyCollection<Client>(clients);
         }
 
         public static void SetClient(int id, Client client)
@@ -150,30 +165,35 @@ namespace MP1.models
                 throw new ArgumentNullException("Client cannot be null");
             }
 
-            var clientTmp = _clients.FirstOrDefault(e => e._Id == id);
+            var clientTmp = clients.FirstOrDefault(e => e.id == id);
             if (clientTmp is null)
             {
                 throw new ArgumentException("There is no client with id : " + id);
             }
 
-            var clientIndex = _clients.FindIndex(e => e._Id == id); 
+            var clientIndex = clients.FindIndex(e => e.id == id); 
             if (clientIndex == -1)
             {
                 throw new InvalidOperationException("There is no client with id : " + id);
             }
             client.SetId(id);
-            _clients[clientIndex] = client;
+            clients[clientIndex] = client;
         }
 
         private void SetId(int Id)
         {
-            var client = _clients.FirstOrDefault(e => e._Id == Id);
+            var client = clients.FirstOrDefault(e => e.id == Id);
             if (client is null)
             {
                 throw new ArgumentNullException("There is no ID: " + Id +" in the clients collection");
 
             }
-            _Id = Id;
+            id = Id;
+        }
+
+        public override string ToString()
+        {
+            return name + " "+ surname +" : " + id;
         }
     }
 }

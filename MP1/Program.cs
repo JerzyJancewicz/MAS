@@ -9,17 +9,31 @@ namespace MP1
         {
             Console.WriteLine("Hello, World!");
 
-            Client client = new Client(
-                "Jerzy",
-                "Jancewicz",
+            Client client1 = new Client(
+                "Jerzy1",
+                "Jancewicz1",
                 "531531531",
-                new Address("Wiosenna 5","Warszawa")
+                new Address("Wiosenna 5","Warszawa"),
+                "jancewiczjerzy@gmail.com"
+            );
+            Client client5 = new Client(
+                "Jerzy5",
+                "Jancewicz5",
+                "531531535",
+                new Address("Wiosenna 6", "Warszawa"),
+                "example@example.com"
             );
             Client client2 = new Client(
                 "Jerzy2",
                 "Jancewicz2",
                 "531531532",
                 new Address("Wiosenna 2", "Warszawa")
+            );
+            Client client4 = new Client(
+                "Jerzy4",
+                "Jancewicz4",
+                "531531534",
+                new Address("Wiosenna 4", "Warszawa")
             );
             Client client3 = new Client(
                 "Jerzy3",
@@ -29,13 +43,14 @@ namespace MP1
             );
 
             var clients = Client.GetClients();
-            Console.WriteLine(clients.Count());
 
-            Client.SetClient(2, client3);
-            Console.WriteLine(clients.Count());
-
-            string FilePath = "F:\\PROJEKTY\\C#Projects\\mas\\MAS\\MP1\\serializedObjects\\clients.json";
-            ClientSerializer.SerializeClients(Client.GetClients().ToList() ,FilePath);
+            foreach (var client in clients)
+            {
+                Console.WriteLine(client);
+            }
+            string FilePath = "yourFile";
+            ClientSerializer.SerializeClients(clients,FilePath);
+            ClientSerializer.DeserializeClients(FilePath);
         }
     }
 }
