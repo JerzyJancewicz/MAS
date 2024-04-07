@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MP1.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,46 @@ namespace MP1.models
 {
     public class Address
     {
-        public int Id { get; set; }
-        public string City { get; set; } = string.Empty;
-        public string Street { get; set; } = string.Empty;
+        public string _city;
+        public string _street;
+        ValidateAddress validateAddress = new ValidateAddress();
+        public string City
+        {
+            get { return _city; }
+            set
+            {
+                if (value.Length >= 3 && value is not null)
+                {
+                    _city = value;
+                }
+                else 
+                {
+                    new ArgumentException("city contains at least 3 characters");
+                }
+            }
+        }
+        public string Street
+        {
+            get { return _street; }
+            set
+            {
+                if (value.Length >= 3 && value is not null)
+                {
+                    _street = value;
+                }
+                else
+                {
+                    new ArgumentException("street contains at least 3 characters");
+                }
+            }
+        }
+
+        public Address(string street, string city)
+        {
+            validateAddress.Street(street);
+            validateAddress.City(city);
+            _street = street;
+            _city = city;
+        }
     }
 }

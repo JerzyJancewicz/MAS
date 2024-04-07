@@ -9,14 +9,31 @@ namespace MP1
         {
             Console.WriteLine("Hello, World!");
 
-            Client client = new Client();
-            Client client1 = new Client();
-            Client client2 = new Client();
+            Client client = new Client(
+                "Jerzy",
+                "Jancewicz",
+                "531531531",
+                new Address("Wiosenna 5","Warszawa")
+            );
+            Client client2 = new Client(
+                "Jerzy2",
+                "Jancewicz2",
+                "531531532",
+                new Address("Wiosenna 2", "Warszawa")
+            );
+            Client client3 = new Client(
+                "Jerzy3",
+                "Jancewicz3",
+                "531531533",
+                new Address("Wiosenna 3", "Warszawa")
+            );
 
             var clients = Client.GetClients();
             Console.WriteLine(clients.Count());
-            Client.SetClient(2, new Client());
+
+            Client.SetClient(2, client3);
             Console.WriteLine(clients.Count());
+
             string FilePath = "F:\\PROJEKTY\\C#Projects\\mas\\MAS\\MP1\\serializedObjects\\clients.json";
             ClientSerializer.SerializeClients(Client.GetClients().ToList() ,FilePath);
         }
