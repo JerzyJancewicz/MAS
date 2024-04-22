@@ -26,7 +26,7 @@ namespace MP1.models
         private List<string> phoneNumbers = new List<string>(); // atr. powtarzalny
 
         private static int numbersOfClient;// atr klasowy
-        private string fullName = ""; // atr pochodny
+        private string fullName = ""; // atr pochodny t
 
         public Client()
         {
