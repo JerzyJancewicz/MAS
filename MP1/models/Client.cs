@@ -27,10 +27,6 @@ namespace MP1.models
 
         private static int numbersOfClient;// atr klasowy
         private string fullName = ""; // atr pochodny t
-
-        public Client()
-        {
-        }
         public Client(string Name, string Surname, string PhoneNumber, Address Address)
         {
             Validate(Name, Surname, PhoneNumber, Address);

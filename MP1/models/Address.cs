@@ -49,6 +49,5 @@ namespace MP1.models
             _street = street;
             _city = city;
         }
-        public Address() { }
     }
 }
