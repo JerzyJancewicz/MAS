@@ -8,7 +8,7 @@ namespace Mas2
         {
 
             var student = new Student();
-            //student.courses[0].lessons[0].teacher.lesson;
+            var cso = student.courses[0].lessons[0].teacher.lesson[0].teacher.lesson[0].grade;
 
             Console.WriteLine("Hello, World!");
         }

@@ -8,7 +8,13 @@ namespace Mas2.Models
 {
     public class Lesson
     {
-        public Grade grade = new Grade();
-        public Teacher teacher = new Teacher();
+        private static HashSet<Lesson> Tasks = new HashSet<Lesson>();
+        private static List<string> Topics = new List<string>();
+
+        // associations
+        private Teacher Teacher;
+        private Course Course;
+        private Participation Participation;
+        private string Topic;
     }
 }

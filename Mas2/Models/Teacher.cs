@@ -8,6 +8,17 @@ namespace Mas2.Models
 {
     public class Teacher
     {
-        public List<Lesson> lesson = new List<Lesson>();
+        private HashSet<Participation> Participations = new HashSet<Participation>();
+
+        private string Name;
+        private string Surname;
+        private string Email;
+
+        public Teacher(string name, string surname, string email)
+        {
+            Name = name;
+            Surname = surname;
+            Email = email;
+        }
     }
 }

@@ -8,7 +8,19 @@ namespace Mas2.Models
 {
     public class Course
     {
-        public Student student = new Student(); // Student 1 - * Course
-        public List<Lesson> lessons = new List<Lesson>();
+        private HashSet<Lesson> lessons = new HashSet<Lesson>();
+        private string Title;
+        private string? Description;
+
+        public Course(string title, string description)
+        {
+            Title = title;
+            Description = description;
+        }
+
+        public Course(string title)
+        {
+            Title = title;
+        }
     }
 }
