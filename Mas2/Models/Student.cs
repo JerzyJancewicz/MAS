@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +10,68 @@ namespace Mas2.Models
     public class Student
     {
         // name of the lesson is qualifier here
-        Dictionary<string, Grade> Grades = new Dictionary<string, Grade>();
-        private Grade Grade;
-        private HashSet<Lesson> Lessons = new HashSet<Lesson>();
+        private Dictionary<string, Grade> _grades = new Dictionary<string, Grade>();
+        private HashSet<Lesson> _lessons = new HashSet<Lesson>();
 
-        private static int NextId;
-        private int Id;
-        private string Name;
-        private string Surname;
-        private string LessonName;
-        public Student(string surname, string name, string lessonName, Grade grade)
+        private string _name;
+        private string _surname;
+
+        public Student(string surname, string name)
         {
-            Surname = surname;
-            Name = name;
-            Grade = grade;
-            LessonName = lessonName;
+            _surname = surname;
+            _name = name;
+        }
+
+        public Grade GetGradeByLessonName(string lessonName)
+        {
+            // lesson Name is null
+            // there is no such a lesson name
+            //if(true)
+            return _grades[lessonName];
+        }
+
+        public ReadOnlyCollection<Lesson> Lessons
+        {
+            get { return new ReadOnlyCollection<Lesson>(_lessons.ToList()); }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (true)
+                _name = value;
+            }
+        }
+        public string Surname
+        {
+            get { return _surname; }
+            set
+            {
+                if (true)
+                _surname = value;
+            }
+        }
+
+        public void AddGrade(Grade grade)
+        {
+            _grades.Add(grade.LessonName ,grade);
+        }
+
+        public void RemoveGrade(Grade grade)
+        {
+            _grades.Remove(grade.LessonName);
+        }
+
+        public void AddLesson(Lesson lesson)
+        {
+            _lessons.Add(lesson);
+        }
+
+        public void RemoveLesson(Lesson lesson)
+        {
+            _lessons.Remove(lesson);
         }
     }
 }
