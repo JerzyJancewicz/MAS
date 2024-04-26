@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Mas2.Validators;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,12 +17,15 @@ namespace Mas2.Models
 
         public Course(string title, string description)
         {
+            CourseValidator.ValidateTitle(title);
+            CourseValidator.ValidateDescriptionNotNull(description);
             _title = title;
             _description = description;
         }
 
         public Course(string title)
         {
+            CourseValidator.ValidateTitle(title);
             _title = title;
         }
 
@@ -34,11 +38,12 @@ namespace Mas2.Models
         {
             get
             {
+                CourseValidator.ValidateTitle(_title);
                 return _title;
             }
             set
             {
-                if(true)
+                CourseValidator.ValidateTitle(value);
                 _title = value;
             }
         }
@@ -47,22 +52,24 @@ namespace Mas2.Models
         {
             get
             {
-                if(true)
-                return _description;
+                CourseValidator.ValidateDescriptionNotNull(_description);
+                return _description ?? "";
             }
             set
             {
-                if(true)
+                CourseValidator.ValidateDescription(value);
                 _description = value;
             }
         }
 
         public void AddLesson(Lesson lesson)
         {
+            CourseValidator.ValidateLesson(lesson);
             _lessons.Add(lesson);
         }
         public void RemoveLesson(Lesson lesson)
         {
+            CourseValidator.ValidateLesson(lesson);
             foreach(var student in lesson.Students.ToList())
             {
                 student.RemoveLesson(lesson);

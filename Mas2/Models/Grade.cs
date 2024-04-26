@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mas2.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,11 @@ namespace Mas2.Models
 
         public Grade(string lessonName, string value, string description, Student student)
         {
+            GradeValidator.ValidateLessonName(lessonName);
+            GradeValidator.ValidateValue(value);
+            GradeValidator.ValidateDescription(description);
+            GradeValidator.ValidateStudent(student);
+
             _value = value;
             _description = description;
             _student = student;
@@ -26,6 +32,10 @@ namespace Mas2.Models
 
         public Grade(string lessonName, string value, Student student)
         {
+            GradeValidator.ValidateLessonName(lessonName);
+            GradeValidator.ValidateValue(value);
+            GradeValidator.ValidateStudent(student);
+
             _value = value;
             _student = student;
             _lessonName = lessonName;
@@ -35,6 +45,9 @@ namespace Mas2.Models
 
         public Grade(string lessonName, Student student)
         {
+            GradeValidator.ValidateLessonName(lessonName);
+            GradeValidator.ValidateStudent(student);
+
             _student = student;
             _lessonName = lessonName;
 
@@ -43,20 +56,27 @@ namespace Mas2.Models
 
         public Student? Student
         {
-            get { return _student; }
-            set { _student = value; }
+            get
+            {
+                GradeValidator.ValidateStudent(_student);
+                return _student; 
+            }
+            set
+            {
+                _student = value; 
+            }
         }
 
         public string Value
         {
             get
             {
-                if(true)
-                return _value; 
+                GradeValidator.ValidateValue(_value);
+                return _value ?? "dst"; 
             }
             set
             {
-                if (true)
+                GradeValidator.ValidateValue(value);
                 _value = value;
             }
         }
@@ -64,24 +84,27 @@ namespace Mas2.Models
         {
             get
             {
-                if(true)
-                return _description; 
+                GradeValidator.ValidateDescription(_description);
+                return _description ?? ""; 
             }
             set
             {
-                if (true)
+                GradeValidator.ValidateDescription(value);
                 _description = value;
             }
         }
         public string LessonName
         {
-            get { return _lessonName; }
+            get
+            {
+                GradeValidator.ValidateLessonName(_lessonName);
+                return _lessonName; 
+            }
             set
             {
-                if (true)
+                GradeValidator.ValidateLessonName(value);
                 _lessonName = value;
             }
         }
-
     }
 }

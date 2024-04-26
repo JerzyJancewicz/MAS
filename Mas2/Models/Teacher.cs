@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mas2.Validators;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace Mas2.Models
 
         public Teacher(string name, string surname, string email)
         {
+            TeacherValidator.ValidateName(name);
+            TeacherValidator.ValidateSurname(surname);
+            TeacherValidator.ValidateEmail(email);
             _name = name;
             _surname = surname;
             _email = email;
@@ -29,39 +33,53 @@ namespace Mas2.Models
 
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                TeacherValidator.ValidateName(_name);
+                return _name;
+            }
             set
             {
-                if(true)
+                TeacherValidator.ValidateName(value);
                 _name = value; 
             }
         }
         public string Surname
         {
-            get { return _surname; }
+            get
+            {
+                TeacherValidator.ValidateSurname(_surname);
+                return _surname; 
+            }
             set
             {
-                if (true)
-                    _surname = value;
+                TeacherValidator.ValidateSurname(value);
+                _surname = value;
             }
         }
         public string Email
         {
-            get { return _email; }
+            get
+            {
+                TeacherValidator.ValidateEmail(_email);
+                return _email; 
+            }
             set
             {
-                if (true)
-                    _email = value;
+                TeacherValidator.ValidateEmail(value);
+                _email = value;
             }
         }
 
         public void AddParticipation(Participation participation)
         {
+            TeacherValidator.ValidateParticipation(participation);
             _participations.Add(participation);
         }
 
         public void RemoveParticipation(Participation participation)
         {
+            TeacherValidator.ValidateParticipation(participation);
             _participations.Remove(participation);
             participation.Teacher = null;
         }

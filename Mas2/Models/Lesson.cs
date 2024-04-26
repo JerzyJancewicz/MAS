@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mas2.Validators;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace Mas2.Models
         private int _duration; // in minutes 
         public Lesson(string topic, int duration, Course course)
         {
+            LessonValidator.ValidateTopic(topic);
+            LessonValidator.ValidateDuration(duration);
+            LessonValidator.ValidateCourse(course);
             _topic = topic;
             _duration = duration;
             _course = course;
@@ -41,8 +45,15 @@ namespace Mas2.Models
         }
         public Course? Course
         {
-            get { return _course; }
-            set { _course = value; }
+            get
+            {
+                LessonValidator.ValidateCourse(_course);
+                return _course; 
+            }
+            set
+            {
+                _course = value; 
+            }
         }
         public ReadOnlyCollection<Participation> Participations
         {
@@ -56,27 +67,36 @@ namespace Mas2.Models
 
         public string Topic
         {
-            get { return _topic; }
+            get
+            {
+                LessonValidator.ValidateTopic(_topic);
+                return _topic;
+            }
             set
             {
-                if(true)
+                LessonValidator.ValidateTopic(value);
                 _topic = value; 
             }
         }
         public int Duration
         {
-            get { return _duration; }
+            get
+            {
+                LessonValidator.ValidateDuration(_duration);
+                return _duration;
+            }
             set
             {
-                if (true)
+                LessonValidator.ValidateDuration(value);
                 _duration = value;
             }
         }
 
         public void AddStudent(Student student)
         {
+            LessonValidator.ValidateStudent(student);
             _students.Add(student);
-            student.AddLesson(this);
+            //student.AddLesson(this);
         }
 
         public void RemoveStudent(Student student)
@@ -85,16 +105,19 @@ namespace Mas2.Models
             {
                 lesson.RemoveStudent(student);
             }*/
-            student.RemoveLesson(this); 
+            LessonValidator.ValidateStudent(student);
+            //student.RemoveLesson(this); 
             _students.Remove(student);
         }
         public void AddParticipation(Participation participation)
         {
+            LessonValidator.ValidateParticipation(participation);
             _participations.Add(participation);
         }
 
         public void RemoveParticipation(Participation participation)
         {
+            LessonValidator.ValidateParticipation(participation);
             if(participation.Teacher != null)
             {
                 participation.Teacher.RemoveParticipation(participation);

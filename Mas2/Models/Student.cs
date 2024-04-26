@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mas2.Validators;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,15 +19,15 @@ namespace Mas2.Models
 
         public Student(string surname, string name)
         {
+            StudentValidator.ValidateName(name);
+            StudentValidator.ValidateSurname(surname);
             _surname = surname;
             _name = name;
         }
 
         public Grade GetGradeByLessonName(string lessonName)
         {
-            // lesson Name is null
-            // there is no such a lesson name
-            //if(true)
+            StudentValidator.ValidateGradesContainsLessonName(_grades ,lessonName);
             return _grades[lessonName];
         }
 
@@ -37,45 +38,56 @@ namespace Mas2.Models
 
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                StudentValidator.ValidateName(Name);
+                return _name; 
+            }
             set
             {
-                if (true)
+                StudentValidator.ValidateName(value);
                 _name = value;
             }
         }
         public string Surname
         {
-            get { return _surname; }
+            get 
+            {
+                StudentValidator.ValidateSurname(_surname);
+                return _surname; 
+            }
             set
             {
-                if (true)
+                StudentValidator.ValidateSurname(value);
                 _surname = value;
             }
         }
 
         public void AddGrade(Grade grade)
         {
-            // modify that grade.LessonName can not be the same
+            StudentValidator.ValidateSameLessonName(_grades, grade.LessonName);
             _grades.Add(grade.LessonName ,grade);
         }
 
         public void RemoveGrade(Grade grade)
         {
+            StudentValidator.ValidateGrade(grade);
             _grades.Remove(grade.LessonName);
             grade.Student = null;
         }
 
         public void AddLesson(Lesson lesson)
         {
+            StudentValidator.ValidateLesson(lesson);
             _lessons.Add(lesson);
-            lesson.AddStudent(this);
+            //lesson.AddStudent(this);
         }
 
         public void RemoveLesson(Lesson lesson)
         {
+            StudentValidator.ValidateLesson(lesson);
             _lessons.Remove(lesson);
-            lesson.RemoveStudent(this);
+            //lesson.RemoveStudent(this);
         }
     }
 }

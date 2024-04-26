@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mas2.Validators;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace Mas2.Models
 
         public Participation(Teacher teacher, Lesson lesson, string status, DateTime date)
         {
+            ParticipationValidator.ValidateTeacher(teacher);
+            ParticipationValidator.ValidateLesson(lesson);
+            ParticipationValidator.ValidateStatus(status);
+            ParticipationValidator.ValidateDate(date);
+
             _lesson = lesson;
             _teacher = teacher;
             _status = status;
@@ -28,30 +34,52 @@ namespace Mas2.Models
 
         public Teacher? Teacher
         {
-            get { return _teacher; }
-            set { _teacher = value; }
+            get
+            {
+                ParticipationValidator.ValidateTeacher(_teacher);
+                return _teacher;
+            }
+            set
+            {
+                _teacher = value; 
+            }
         }
         public Lesson? Lesson
         {
-            get { return _lesson; } 
-            set { _lesson = value; }
+            get
+            {
+                ParticipationValidator.ValidateLesson(_lesson);
+                return _lesson;
+            } 
+            set
+            { 
+                _lesson = value;
+            }
         }
 
         public DateTime Date
         {
-            get { return _date; }
+            get
+            {
+                ParticipationValidator.ValidateDate(_date);
+                return _date; 
+            }
             set
             {
-                if(true)
+                ParticipationValidator.ValidateDate(_date);
                 _date = value; 
             }
         }
         public string Status
         {
-            get { return _status; } 
+            get
+            {
+                ParticipationValidator.ValidateStatus(_status);
+                return _status; 
+            } 
             set
             {
-                if(true)
+                ParticipationValidator.ValidateStatus(_status);
                 _status = value; 
             }
         }
