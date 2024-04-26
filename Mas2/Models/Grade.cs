@@ -8,7 +8,7 @@ namespace Mas2.Models
 {
     public class Grade
     {
-        private Student _student;
+        private Student? _student;
 
         private string? _value;
         private string? _description;
@@ -20,6 +20,8 @@ namespace Mas2.Models
             _description = description;
             _student = student;
             _lessonName = lessonName;
+
+            _student.AddGrade(this);
         }
 
         public Grade(string lessonName, string value, Student student)
@@ -27,17 +29,22 @@ namespace Mas2.Models
             _value = value;
             _student = student;
             _lessonName = lessonName;
+
+            _student.AddGrade(this);
         }
 
         public Grade(string lessonName, Student student)
         {
             _student = student;
             _lessonName = lessonName;
+
+            _student.AddGrade(this);
         }
 
-        public Student Student
+        public Student? Student
         {
             get { return _student; }
+            set { _student = value; }
         }
 
         public string Value

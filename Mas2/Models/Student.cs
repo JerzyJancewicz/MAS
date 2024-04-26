@@ -56,22 +56,26 @@ namespace Mas2.Models
 
         public void AddGrade(Grade grade)
         {
+            // modify that grade.LessonName can not be the same
             _grades.Add(grade.LessonName ,grade);
         }
 
         public void RemoveGrade(Grade grade)
         {
             _grades.Remove(grade.LessonName);
+            grade.Student = null;
         }
 
         public void AddLesson(Lesson lesson)
         {
             _lessons.Add(lesson);
+            lesson.AddStudent(this);
         }
 
         public void RemoveLesson(Lesson lesson)
         {
             _lessons.Remove(lesson);
+            lesson.RemoveStudent(this);
         }
     }
 }

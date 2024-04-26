@@ -63,6 +63,7 @@ namespace Mas2.Models
         public void RemoveParticipation(Participation participation)
         {
             _participations.Remove(participation);
+            participation.Teacher = null;
         }
     }
 }

@@ -9,8 +9,8 @@ namespace Mas2.Models
 {
     public class Participation
     {
-        private Lesson _lesson;
-        private Teacher _teacher;
+        private Lesson? _lesson;
+        private Teacher? _teacher;
 
         private DateTime _date;
         private string _status;
@@ -21,20 +21,20 @@ namespace Mas2.Models
             _teacher = teacher;
             _status = status;
             _date = date;
+
+            _teacher.AddParticipation(this);
+            _lesson.AddParticipation(this);
         }
 
-        /*public ReadOnlyCollection<Lesson> Lessons
-        {
-            get { return new ReadOnlyCollection<Lesson>(_lessons.ToList()); }
-        }*/
-
-        public Teacher Teacher
+        public Teacher? Teacher
         {
             get { return _teacher; }
+            set { _teacher = value; }
         }
-        public Lesson Lesson
+        public Lesson? Lesson
         {
             get { return _lesson; } 
+            set { _lesson = value; }
         }
 
         public DateTime Date
@@ -46,7 +46,6 @@ namespace Mas2.Models
                 _date = value; 
             }
         }
-
         public string Status
         {
             get { return _status; } 
@@ -56,14 +55,5 @@ namespace Mas2.Models
                 _status = value; 
             }
         }
-        /*public void AddLesson(Lesson lesson)
-        {
-            _lessons.Add(lesson);
-        }
-
-        public void RemoveLesson(Lesson lesson)
-        {
-            _lessons.Remove(lesson);
-        }*/
     }
 }

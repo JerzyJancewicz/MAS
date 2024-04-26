@@ -63,6 +63,17 @@ namespace Mas2.Models
         }
         public void RemoveLesson(Lesson lesson)
         {
+            foreach(var student in lesson.Students.ToList())
+            {
+                student.RemoveLesson(lesson);
+            }
+
+            foreach (var participation in lesson.Participations.ToList())
+            {
+                lesson.RemoveParticipation(participation);
+            }
+
+            lesson.Course = null;
             _lessons.Remove(lesson);
         }
     }

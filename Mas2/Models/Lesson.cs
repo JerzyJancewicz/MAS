@@ -13,13 +13,12 @@ namespace Mas2.Models
         private static List<string> _topics = new List<string>();
 
         // associations
-        private Course _course;
+        private Course? _course;
         private HashSet<Participation> _participations = new HashSet<Participation>();
         private HashSet<Student> _students = new HashSet<Student>();
 
         private string _topic;
         private int _duration; // in minutes 
-
         public Lesson(string topic, int duration, Course course)
         {
             _topic = topic;
@@ -28,6 +27,7 @@ namespace Mas2.Models
 
             _lessons.Add(this);
             _topics.Add(_topic);
+            _course.AddLesson(this);
         }
 
         public static ReadOnlyCollection<Lesson> Lessons
@@ -39,15 +39,16 @@ namespace Mas2.Models
         {
             get { return new ReadOnlyCollection<string>(_topics.ToList()); }
         }
-        public Course Course
+        public Course? Course
         {
             get { return _course; }
+            set { _course = value; }
         }
         public ReadOnlyCollection<Participation> Participations
         {
             get { return new ReadOnlyCollection<Participation>(_participations.ToList()); }
         }
-
+    
         public ReadOnlyCollection<Student> Students
         {
             get { return new ReadOnlyCollection<Student>(_students.ToList()); }
@@ -75,10 +76,16 @@ namespace Mas2.Models
         public void AddStudent(Student student)
         {
             _students.Add(student);
+            student.AddLesson(this);
         }
 
         public void RemoveStudent(Student student)
         {
+            /*foreach (var lesson in student.Lessons.ToList())
+            {
+                lesson.RemoveStudent(student);
+            }*/
+            student.RemoveLesson(this); 
             _students.Remove(student);
         }
         public void AddParticipation(Participation participation)
@@ -88,6 +95,12 @@ namespace Mas2.Models
 
         public void RemoveParticipation(Participation participation)
         {
+            if(participation.Teacher != null)
+            {
+                participation.Teacher.RemoveParticipation(participation);
+            }
+            participation.Teacher = null;
+            participation.Lesson = null;
             _participations.Remove(participation);
         }
     }
