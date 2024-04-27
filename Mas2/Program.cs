@@ -18,8 +18,6 @@ namespace Mas2
             
             student.AddLesson(lesson);
             lesson.AddStudent(student);
-
-            Console.WriteLine("Hello, World!");
         }
     }
 }

@@ -96,17 +96,11 @@ namespace Mas2.Models
         {
             LessonValidator.ValidateStudent(student);
             _students.Add(student);
-            //student.AddLesson(this);
         }
 
         public void RemoveStudent(Student student)
         {
-            /*foreach (var lesson in student.Lessons.ToList())
-            {
-                lesson.RemoveStudent(student);
-            }*/
             LessonValidator.ValidateStudent(student);
-            //student.RemoveLesson(this); 
             _students.Remove(student);
         }
         public void AddParticipation(Participation participation)
