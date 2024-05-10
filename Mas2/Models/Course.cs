@@ -66,6 +66,8 @@ namespace Mas2.Models
         {
             CourseValidator.ValidateLesson(lesson);
             _lessons.Add(lesson);
+            lesson.Course = this;
+            
         }
         public void RemoveLesson(Lesson lesson)
         {

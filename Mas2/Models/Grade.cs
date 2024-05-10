@@ -54,6 +54,7 @@ namespace Mas2.Models
             _student.AddGrade(this);
         }
 
+        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Student? Student
         {
             get

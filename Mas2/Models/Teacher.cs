@@ -75,6 +75,7 @@ namespace Mas2.Models
         {
             TeacherValidator.ValidateParticipation(participation);
             _participations.Add(participation);
+            participation.Teacher = this;
         }
 
         public void RemoveParticipation(Participation participation)

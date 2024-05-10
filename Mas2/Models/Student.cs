@@ -67,6 +67,7 @@ namespace Mas2.Models
         {
             StudentValidator.ValidateSameLessonName(_grades, grade.LessonName);
             _grades.Add(grade.LessonName ,grade);
+            grade.Student = this;
         }
 
         public void RemoveGrade(Grade grade)
@@ -80,12 +81,14 @@ namespace Mas2.Models
         {
             StudentValidator.ValidateLesson(lesson);
             _lessons.Add(lesson);
+            lesson.AddStudent(this);
         }
 
         public void RemoveLesson(Lesson lesson)
         {
             StudentValidator.ValidateLesson(lesson);
             _lessons.Remove(lesson);
+            lesson = null;
         }
     }
 }

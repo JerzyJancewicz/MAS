@@ -32,6 +32,7 @@ namespace Mas2.Models
             _lesson.AddParticipation(this);
         }
 
+        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Teacher? Teacher
         {
             get
@@ -44,6 +45,8 @@ namespace Mas2.Models
                 _teacher = value; 
             }
         }
+
+        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Lesson? Lesson
         {
             get

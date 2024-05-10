@@ -15,9 +15,12 @@ namespace Mas2
 
             Student student = new Student("Jankowksi", "Edward");
             Grade grade = new Grade("History", "dst", "Could be better", student);
-            
+            Grade grade2 = new Grade("Math", "dst", "Could be better", student);
+
             student.AddLesson(lesson);
             lesson.AddStudent(student);
+
+            student.AddGrade(grade2);
         }
     }
 }

@@ -43,6 +43,8 @@ namespace Mas2.Models
         {
             get { return new ReadOnlyCollection<string>(_topics.ToList()); }
         }
+
+        // BŁĄD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Course? Course
         {
             get
@@ -102,11 +104,13 @@ namespace Mas2.Models
         {
             LessonValidator.ValidateStudent(student);
             _students.Remove(student);
+            student.AddLesson(this);
         }
         public void AddParticipation(Participation participation)
         {
             LessonValidator.ValidateParticipation(participation);
             _participations.Add(participation);
+            participation.Lesson = this;
         }
 
         public void RemoveParticipation(Participation participation)
