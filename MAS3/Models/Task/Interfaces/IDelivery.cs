@@ -8,6 +8,6 @@ namespace MAS3.Models.Task.Interfaces
 {
     public interface IDelivery
     {
-        public void CalculateIncome(DateTime deliveryDuration);
+        public int CalculateIncome(DateTime deliveryDuration);
     }
 }
