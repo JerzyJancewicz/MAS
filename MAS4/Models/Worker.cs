@@ -14,6 +14,7 @@ namespace MAS4.Models
 
         private HashSet<Team> _assignedTeams = new HashSet<Team>();
         private HashSet<Team> _managedTeams = new HashSet<Team>();
+        private Manager? _manager;
 
         public Worker(string name, string surname)
         {
@@ -23,6 +24,19 @@ namespace MAS4.Models
             }
             _name = name;
             _surname = surname;
+        }
+        public void AddManager(Manager manager)
+        {
+            if (manager == null) { throw new ArgumentNullException(); }
+            _manager = manager;
+        }
+        public void RemoveManager()
+        {
+            _manager = null;
+        }
+        public Manager Manager
+        {
+            get => _manager;
         }
         public HashSet<Team> AssignedTeams
         {

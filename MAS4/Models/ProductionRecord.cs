@@ -11,22 +11,20 @@ namespace MAS4.Models
         private DateTime _startDate;
         private DateTime _endDate;
 
-        private Product _product;
-        private Machine _machine;
+        private Product? _product;
+        private Machine? _machine;
 
         public ProductionRecord(DateTime endDate, Product product, Machine machine)
         {
             _startDate = DateTime.UtcNow;
             _endDate = endDate;
-            if (product ==null || machine == null)
+            if (product == null || machine == null)
             {
                 throw new ArgumentNullException();
             }
             _product = product;
             _machine = machine;
         }
-        public Product Product { get { return _product; } }
-        public Machine Machine { get { return _machine; } }
 
         public void AddProductReference(Product product)
         {
@@ -55,5 +53,15 @@ namespace MAS4.Models
                 _endDate = value;
             }
         }
+        public void RemoveProductReference()
+        {
+            _product = null;
+        }
+        public void RemoveMachineReference()
+        {
+            _machine = null;
+        }
+        public Product Product { get { return _product; } }
+        public Machine Machine { get { return _machine; } }
     }
 }

@@ -13,8 +13,9 @@ namespace MAS4.Models
         private string _name;
         private double _price;
 
-        private static HashSet<string> serialNumbers = new HashSet<string>();
-        private List<ProductionRecord> productionRecords = new List<ProductionRecord>();
+        private static HashSet<string> _serialNumbers = new HashSet<string>();
+        private List<ProductionRecord> _productionRecords = new List<ProductionRecord>();
+        private Manager? _manager;
 
         private static readonly int MAX_NAME_LENGTH = 50;
         private static readonly double MAX_PRICE_CHANGE = 1.2;
@@ -25,7 +26,37 @@ namespace MAS4.Models
             _name = name;
             _price = price;
 
-            serialNumbers.Add(serialNumber);
+            _serialNumbers.Add(serialNumber);
+        }
+
+        public void AddProductionRecord(ProductionRecord productionRecords)
+        {
+            if (productionRecords == null) { throw new ArgumentNullException(); }
+            _productionRecords.Add(productionRecords);
+            productionRecords.AddProductReference(this);
+        }
+
+        public void RemoveProductionRecord(ProductionRecord productionRecord)
+        {
+            if (productionRecord == null) { throw new ArgumentNullException(); }
+            if (_productionRecords.Contains(productionRecord))
+            {
+                _productionRecords.Remove(productionRecord);
+                productionRecord.RemoveProductReference();
+            }
+        }
+        public void AddManager(Manager manager) 
+        {
+            if (manager == null) { throw new ArgumentNullException(); }
+            _manager = manager;
+        }
+        public void RemoveManager()
+        {
+            _manager = null;
+        }
+        public Manager Manager 
+        {
+            get => _manager;
         }
 
         public string Name
@@ -63,18 +94,18 @@ namespace MAS4.Models
             get => _serialNumber;
             set 
             {
-                if (serialNumbers.Contains(value))
+                if (_serialNumbers.Contains(value))
                 {
                     throw new ArgumentException("Value already exists");
                 }
-                serialNumbers.Remove(_serialNumber);
+                _serialNumbers.Remove(_serialNumber);
                 _serialNumber = value;
-                serialNumbers.Add(_serialNumber);
+                _serialNumbers.Add(_serialNumber);
             }
         }
         public static ReadOnlyCollection<string> SerialNumbers
         {
-            get => new ReadOnlyCollection<string>(serialNumbers.ToList());
+            get => new ReadOnlyCollection<string>(_serialNumbers.ToList());
         }
     }
 }
