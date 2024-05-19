@@ -14,6 +14,8 @@ namespace MAS4.Models
         private double _price;
 
         private static HashSet<string> serialNumbers = new HashSet<string>();
+        private List<ProductionRecord> productionRecords = new List<ProductionRecord>();
+
         private static readonly int MAX_NAME_LENGTH = 50;
         private static readonly double MAX_PRICE_CHANGE = 1.2;
 

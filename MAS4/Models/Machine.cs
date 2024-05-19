@@ -10,6 +10,8 @@ namespace MAS4.Models
     {
         private string _type;
         private string _name;
+
+        private List<ProductionRecord> _productionRecords = new List<ProductionRecord>();   
         public Machine(string type, string name)
         {
             _type = type;
@@ -25,6 +27,20 @@ namespace MAS4.Models
         {
             get => _type;
             set => _type = value ?? throw new ArgumentNullException("value can not be null");
+        }
+
+        public void AddProductionRecord(ProductionRecord productionRecords)
+        {
+            if (productionRecords == null) { throw new ArgumentNullException(); }
+            _productionRecords.Add(productionRecords);
+            productionRecords.AddMachineReference(this);
+        }
+
+        public void RemoveProductionRecord(ProductionRecord productionRecord)
+        {
+            TeacherValidator.ValidateParticipation(participation);
+            _participations.Remove(participation);
+            participation.Teacher = null;
         }
     }
 }
