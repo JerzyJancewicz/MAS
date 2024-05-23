@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAS5", "MAS5.csproj", "{F99C72C4-3CA1-448B-BD00-166E085F9FB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAS5", "MAS5.csproj", "{F99C72C4-3CA1-448B-BD00-166E085F9FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mas5Test", "..\MastTest\Mas5Test.csproj", "{C7AB0E2C-EE47-41E6-ACEF-9A76DE10E361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F99C72C4-3CA1-448B-BD00-166E085F9FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F99C72C4-3CA1-448B-BD00-166E085F9FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F99C72C4-3CA1-448B-BD00-166E085F9FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7AB0E2C-EE47-41E6-ACEF-9A76DE10E361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7AB0E2C-EE47-41E6-ACEF-9A76DE10E361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7AB0E2C-EE47-41E6-ACEF-9A76DE10E361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7AB0E2C-EE47-41E6-ACEF-9A76DE10E361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

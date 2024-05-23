@@ -1,4 +1,5 @@
-﻿using MAS5.Models;
+﻿using MAS5.Models.User;
+using MAS5.Models.User.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAS5.Context
@@ -8,15 +9,15 @@ namespace MAS5.Context
         public MasMpDbContext(DbContextOptions<MasMpDbContext> options):base(options) {}
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<IEmployee> Employees { get; set; }
+        public DbSet<IClient> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Employee>().HasBaseType<User>();
-            modelBuilder.Entity<Client>().HasBaseType<User>();
+            modelBuilder.Entity<IEmployee>().HasBaseType<User>();
+            modelBuilder.Entity<IClient>().HasBaseType<User>();
         }
     }
 }
