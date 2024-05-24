@@ -71,7 +71,7 @@ public class User : IClient, IEmployee
     {
         if (reservation == null) { throw new ArgumentNullException(); }
         _reservations.Remove(reservation);
-        reservation.RemoveReference();
+        reservation.RemoveUserReference();
     }*/
 
     [CustomStringLength(maximumLength: 40, minimumLength: 4, ErrorMessage = "DriverLicenseId should contain at least 4 and maximum 40 characters")]
