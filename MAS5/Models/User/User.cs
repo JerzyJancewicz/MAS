@@ -1,8 +1,10 @@
 ﻿using MAS5.Models.CustomValidators.User;
+using MAS5.Models.Reservation;
 using MAS5.Models.User;
 using MAS5.Models.User.User;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 public class User : IClient, IEmployee
@@ -30,6 +32,8 @@ public class User : IClient, IEmployee
     private string? _jobTitle;
     private readonly List<UserRole> userRoles;
 
+    private HashSet<Reservation> _reservations = new HashSet<Reservation>();
+
     public User(List<UserRole> roles, string name, string surname, string email, string phoneNumber, string driverLicenseId = null, string jobTitle = null)
     {
         if(roles.Count == 0)
@@ -52,6 +56,23 @@ public class User : IClient, IEmployee
             JobTitle = jobTitle;
         }
     }
+    public ReadOnlyCollection<Reservation> Reservations
+    {
+        get { return new ReadOnlyCollection<Reservation>(_reservations.ToList()); }
+    }
+    /*public void AddReservation(Reservation reservation)
+    {
+        if (reservation == null) { throw new ArgumentNullException(); }
+        _reservations.Add(reservation);
+        reservation.User = this;
+    }
+
+    public void RemoveReservation(Reservation reservation)
+    {
+        if (reservation == null) { throw new ArgumentNullException(); }
+        _reservations.Remove(reservation);
+        reservation.RemoveReference();
+    }*/
 
     [CustomStringLength(maximumLength: 40, minimumLength: 4, ErrorMessage = "DriverLicenseId should contain at least 4 and maximum 40 characters")]
     public string DriverLicenseId
