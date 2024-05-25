@@ -1,4 +1,4 @@
-﻿namespace MAS5.Models.User
+﻿namespace MAS5.Models.UserM
 {
     public enum UserRole
     {

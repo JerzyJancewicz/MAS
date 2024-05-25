@@ -1,9 +1,9 @@
-﻿using MAS5.Models.Owner;
-using MAS5.Models.Reservation;
+﻿using MAS5.Models.OwnerM;
+using MAS5.Models.ReservationM;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace MAS5.Models.Car
+namespace MAS5.Models.CarM
 {
     public class Car
     {
@@ -22,44 +22,50 @@ namespace MAS5.Models.Car
         [MinLength(0)]
         public double Mileage { get; set; }
 
-        private Models.Owner.Owner? _owner = new Models.Owner.Owner();
-        private HashSet<Models.Reservation.Reservation> _reservations = new HashSet<Models.Reservation.Reservation>();
+        private Owner? _owner = new Owner();
+        private HashSet<Reservation> _reservations = new HashSet<Reservation>();
 
-        public Models.Owner.Owner Owner
+        public Owner Owner
         {
             get => _owner!;
-            set 
+            private set 
             {
-                if (value == null) 
-                {
-                    throw new ArgumentNullException();
-                }
                 _owner = value;
             }
         }
-        public ReadOnlyCollection<Models.Reservation.Reservation> Reservations
+        public ReadOnlyCollection<Reservation> Reservations
         {
-            get { return new ReadOnlyCollection<Models.Reservation.Reservation>(_reservations.ToList()); }
+            get { return new ReadOnlyCollection<Reservation>(_reservations.ToList()); }
         }
 
-        public void AddReservation(Models.Reservation.Reservation reservation)
+        public void AddReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
             _reservations.Add(reservation);
-            reservation.Car = this;
+            reservation.AddCarReference(this);
         }
 
-        public void RemoveReservation(Models.Reservation.Reservation reservation)
+        public void RemoveReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
             _reservations.Remove(reservation);
             reservation.RemoveCarReference();
         }
 
-        // ????????????????????????????????????
-        internal void RemoveReference()
+        public void RemoveReference()
         {
+            if (_owner != null)
+            {
+                _owner.RemoveCar(this);
+            }
             _owner = null;
+        }
+
+        public void AddOwnerReference(Owner owner) 
+        {
+            if (owner == null) { throw new ArgumentNullException(); }
+            _owner = owner;
+            owner.AddCar(this);
         }
     }
 }

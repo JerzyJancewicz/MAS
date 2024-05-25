@@ -1,5 +1,4 @@
 ﻿using MAS5.Models.Service;
-using MAS5.Models.User.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

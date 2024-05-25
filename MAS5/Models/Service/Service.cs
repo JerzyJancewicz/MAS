@@ -1,4 +1,4 @@
-﻿using MAS5.Models.User.User;
+﻿using MAS5.Models.UserM;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -29,7 +29,7 @@ namespace MAS5.Models.Service
 
         public static double SERVICE_COST_VALUE = 1.2;
 
-        //private HashSet<User.User.User> users = new HashSet<User.User.User> ();
+        private HashSet<User> users = new HashSet<User> ();
 
         
     }

@@ -1,10 +1,8 @@
-﻿using MAS5.Models.Car;
-using MAS5.Models.User;
-
-
+﻿using MAS5.Models.CarM;
+using MAS5.Models.UserM;
 using System.ComponentModel.DataAnnotations;
 
-namespace MAS5.Models.Reservation
+namespace MAS5.Models.ReservationM
 {
     public class Reservation
     {
@@ -30,51 +28,65 @@ namespace MAS5.Models.Reservation
 
         private static double RESERVATION_COST_VALUE = 1.2;
 
-        private Car.Car? _car = new Car.Car();
-        //private User.User? _user = new User.User();
+        private Car? _car;
+        private User? _user;
 
-        public Reservation(Car.Car car)
+        public Reservation(Car car, User user)
         {
-            if (car == null) { throw new ArgumentNullException(); }
+            if (car == null || user == null) { throw new ArgumentNullException(); }
             _car = car;
+            _user = user;
 
             _car.AddReservation(this);
-            //_user.AddReservation(this);
+            _user.AddReservation(this);
         }
 
-        public Car.Car Car
+        public Car Car
         {
             get => _car!;
-            set
+            private set
             {
-                if (value == null) 
-                {
-                    throw new ArgumentNullException();
-                }
                 _car = value;
             }
         }
-        /*public User.User User
+        public User User
         {
             get => _user!;
-            set
+            private set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
                 _user = value;
             }
-        }*/
+        }
 
-        /*internal void RemoveUserReference()
+        public void RemoveUserReference()
         {
+            if (_user != null)
+            {
+                _user.RemoveReservation(this);
+            }
             _user = null;
-        }*/
+        }
 
-        internal void RemoveCarReference() 
+        public void RemoveCarReference() 
         {
+            if (_car != null)
+            {
+                _car.RemoveReservation(this);
+            }
             _car = null;
+        }
+
+        public void AddUserReference(User user)
+        {
+            if (user == null) { throw new ArgumentNullException(); }
+            _user = user;
+            user.AddReservation(this);
+        }
+        public void AddCarReference(Car car)
+        {
+            if (car == null) { throw new ArgumentNullException(); }
+            _car = car;
+            car.AddReservation(this);
         }
     }
 }

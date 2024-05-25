@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MAS5.Models.CustomValidators.User
+namespace MAS5.Models.CustomValidators.UserCM
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class CustomStringLength : ValidationAttribute

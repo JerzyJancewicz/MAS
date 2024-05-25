@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MAS5.Models.User.User
+namespace MAS5.Models.UserM
 {
     public interface IClient
     {
