@@ -1,4 +1,5 @@
-﻿using MAS5.Models.Service;
+﻿using MAS5.Models.CarM;
+using MAS5.Models.CarServiceM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ namespace Mas5Test
 {
     public class ServiceModelsTests
     {
-        private IList<ValidationResult> ValidateModel(Service model)
+        private IList<ValidationResult> ValidateModel(CarService model)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(model, serviceProvider: null, items: null);
@@ -23,7 +24,9 @@ namespace Mas5Test
         public void Service_ShouldHaveProperlyFormattedDate()
         {
             // Arrange
-            var service = new Service
+            var car = new Car();
+
+            var service = new Service(car)
             {
                 Name = "Test",
                 Description = "Test Description"
@@ -41,7 +44,8 @@ namespace Mas5Test
         public void Service_ShouldBeInvalid_WhenNameIsNull()
         {
             // Arrange
-            var service = new Service
+            var car = new Car();
+            var service = new CarService(car)
             {
                 Name = null,
                 Description = "Test Description"
@@ -59,7 +63,8 @@ namespace Mas5Test
         public void Service_ShouldBeInvalid_WhenNameIsTooShort()
         {
             // Arrange
-            var service = new Service
+            var car = new Car();
+            var service = new CarService(car)
             {
                 Name = "A", // Invalid: too short
                 Description = "Test Description"
@@ -77,7 +82,8 @@ namespace Mas5Test
         public void Service_ShouldBeInvalid_WhenDescriptionIsTooLong()
         {
             // Arrange
-            var service = new Service
+            var car = new Car();
+            var service = new CarService(car)
             {
                 Name = "Valid Name",
                 Description = new string('A', 251) // Invalid: too long
@@ -95,7 +101,8 @@ namespace Mas5Test
         public void Service_ShouldBeValid_WhenAllPropertiesAreValid()
         {
             // Arrange
-            var service = new Service
+            var car = new Car();
+            var service = new CarService(car)
             {
                 Name = "Valid Name",
                 Description = "Valid Description"

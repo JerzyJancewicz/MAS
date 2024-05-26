@@ -72,6 +72,9 @@ namespace MAS5.Models.UserM
             if (reservation == null) { throw new ArgumentNullException(); }
             _reservations.Remove(reservation);
             reservation.RemoveUserReference();
+
+            reservation.Car.RemoveReservation(reservation);
+            reservation.RemoveCarReference();
         }
 
         [CustomStringLength(maximumLength: 40, minimumLength: 4, ErrorMessage = "DriverLicenseId should contain at least 4 and maximum 40 characters")]

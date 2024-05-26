@@ -26,8 +26,6 @@ namespace MAS5.Models.ReservationM
         )]
         public DateTime ReservationDate { get; set; } = DateTime.Now.ToLocalTime();
 
-        private static double RESERVATION_COST_VALUE = 1.2;
-
         private Car? _car;
         private User? _user;
 

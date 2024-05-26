@@ -1,4 +1,5 @@
-﻿using MAS5.Models.OwnerM;
+﻿using MAS5.Models.CarServiceM;
+using MAS5.Models.OwnerM;
 using MAS5.Models.ReservationM;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,8 @@ namespace MAS5.Models.CarM
         [MinLength(0)]
         public double Mileage { get; set; }
 
-        private Owner? _owner = new Owner();
+        private Owner? _owner;
+        private HashSet<CarService> _carServices = new HashSet<CarService>();
         private HashSet<Reservation> _reservations = new HashSet<Reservation>();
 
         public Owner Owner
@@ -33,9 +35,28 @@ namespace MAS5.Models.CarM
                 _owner = value;
             }
         }
+
+        public ReadOnlyCollection<CarService> CarServices
+        {
+            get => new ReadOnlyCollection<CarService>(_carServices.ToList());
+        }
         public ReadOnlyCollection<Reservation> Reservations
         {
             get { return new ReadOnlyCollection<Reservation>(_reservations.ToList()); }
+        }
+
+        public void RemoveCarServiceReference(CarService carService)
+        {
+            if (carService == null) { throw new ArgumentNullException(); }
+            _carServices.Remove(carService);
+            carService.RemoveCarReference();
+        }
+
+        public void AddCarServiceReference(CarService carService) 
+        {
+            if (carService == null) { throw new ArgumentNullException(); }
+            _carServices.Add(carService);
+            carService.AddCarReference(this);
         }
 
         public void AddReservation(Reservation reservation)
@@ -50,6 +71,9 @@ namespace MAS5.Models.CarM
             if (reservation == null) { throw new ArgumentNullException(); }
             _reservations.Remove(reservation);
             reservation.RemoveCarReference();
+
+            reservation.User.RemoveReservation(reservation);
+            reservation.RemoveUserReference();
         }
 
         public void RemoveReference()
