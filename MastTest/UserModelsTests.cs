@@ -20,15 +20,7 @@ namespace Mas5Test
         public void User_ShouldBeInvalid_WhenEmailPropertyIsInvalid()
         {
             // Arrange
-            var user = new User(
-                new List<UserRole> { UserRole.EMPLOYEE, UserRole.CLIENT },
-                "Test",
-                "Test",
-                "Test", // Invalid email address
-                "432543654",
-                "Test",
-                "test"
-            );
+            var user = new User();
 
             // Act
             var results = ValidateModel(user);
@@ -44,7 +36,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.EMPLOYEE };
-            var employee = new User(userRoles, null, null, null, null, jobTitle: null);
+            var employee = new User();
 
             // Act
             var results = ValidateModel(employee);
@@ -58,7 +50,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(userRoles, "Test", "Test", "test@example.com", "123456789", driverLicenseId: "123");
+            var client = new User();
 
             // Act
             var results = ValidateModel(client);
@@ -73,7 +65,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(userRoles, "Test", "Test", "test@example.com", "123456789", driverLicenseId: new string('a', 41));
+            var client = new User();
 
             // Act
             var results = ValidateModel(client);
@@ -88,7 +80,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(userRoles, "Test", "Test", "test@example.com", "123456789", driverLicenseId: "12345");
+            var client = new User();
 
             // Act
             var results = ValidateModel(client);
@@ -102,7 +94,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.EMPLOYEE };
-            var employee = new User(userRoles, "Test", "Test", "test@example.com", "123", jobTitle: "Test");
+            var employee = new User();
 
             // Act
             var results = ValidateModel(employee);
@@ -117,7 +109,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.EMPLOYEE };
-            var employee = new User(userRoles, "ValidName", "ValidSurname", "valid@example.com", "1234567890", jobTitle: "ValidJobTitle");
+            var employee = new User();
 
             // Act
             var results = ValidateModel(employee);
@@ -131,7 +123,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(userRoles, null, null, null, null, driverLicenseId: null);
+            var client = new User();
 
             // Act
             var results = ValidateModel(client);
@@ -145,7 +137,7 @@ namespace Mas5Test
         {
             // Arrange
             var userRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(userRoles, "Test", "Test", "invalid-email", "123456789", driverLicenseId: "12345");
+            var client = new User();
 
             // Act
             var results = ValidateModel(client);
@@ -160,10 +152,10 @@ namespace Mas5Test
         {
             // Arrange
             var employeeRoles = new List<UserRole> { UserRole.EMPLOYEE };
-            var employee = new User(employeeRoles, "Test", "Test", "test@example.com", "1234567890", jobTitle: "TestJobTitle");
+            var employee = new User();
 
             var clientRoles = new List<UserRole> { UserRole.CLIENT };
-            var client = new User(clientRoles, "ClientTest", "ClientTest", "client@example.com", "0987654321", driverLicenseId: "DL12345");
+            var client = new User();
 
             // Act
             var employeeResults = ValidateModel(employee);
@@ -179,7 +171,7 @@ namespace Mas5Test
         {
             // Arrange
             var roles = new List<UserRole> { UserRole.CLIENT, UserRole.EMPLOYEE };
-            var user = new User(roles, "MultiRole", "User", "multi@example.com", "1234567890", "DL12345", "Manager");
+            var user = new User();
 
             // Act
             var results = ValidateModel(user);
@@ -194,7 +186,7 @@ namespace Mas5Test
             // Act & Assert
             Assert.Throws<ArgumentException>(() =>
             {
-                var user = new User(new List<UserRole>(), "John", "Doe", "john@example.com", "1234567890");
+                var user = new User();
             });
         }
 
@@ -203,7 +195,7 @@ namespace Mas5Test
         {
             // Arrange
             var employeeRoles = new List<UserRole> { UserRole.EMPLOYEE };
-            var user = new User(employeeRoles, "Test", "Test", "test@example.com", "1234567890", driverLicenseId: "DL12345");
+            var user = new User();
 
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => user.DriverLicenseId = "DL67890");
@@ -214,7 +206,7 @@ namespace Mas5Test
         {
             // Arrange
             var clientRoles = new List<UserRole> { UserRole.CLIENT };
-            var user = new User(clientRoles, "Test", "Test", "test@example.com", "1234567890", driverLicenseId: "DL12345");
+            var user = new User();
 
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => user.JobTitle = "Manager");
@@ -224,7 +216,7 @@ namespace Mas5Test
         public void IsPolandCitizen_ShouldThrowArgumentException_WhenUserIsNotClient()
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.EMPLOYEE }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() => user.IsPolandCitizen("DL12345"));
@@ -234,7 +226,7 @@ namespace Mas5Test
         public void IsPolandCitizen_ShouldThrowArgumentNullException_WhenDriverLicenseIsNull()
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.CLIENT }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => user.IsPolandCitizen(null));
@@ -247,7 +239,7 @@ namespace Mas5Test
         public void IsPolandCitizen_ShouldReturnTrue_WhenDriverLicenseIsFromPoland(string driverLicense)
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.CLIENT }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act
             var result = user.IsPolandCitizen(driverLicense);
@@ -263,7 +255,7 @@ namespace Mas5Test
         public void IsPolandCitizen_ShouldReturnFalse_WhenDriverLicenseIsNotFromPoland(string driverLicense)
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.CLIENT }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act
             var result = user.IsPolandCitizen(driverLicense);
@@ -276,7 +268,7 @@ namespace Mas5Test
         public void IsPossibleRaise_ShouldThrowArgumentException_WhenUserIsNotEmployee()
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.CLIENT }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() => user.IsPossibleRaise(25));
@@ -288,7 +280,7 @@ namespace Mas5Test
         public void IsPossibleRaise_ShouldReturnFalse_WhenAmmountOfHandledTasksIsNotGreaterThan20(int ammount)
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.EMPLOYEE }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act
             var result = user.IsPossibleRaise(ammount);
@@ -303,7 +295,7 @@ namespace Mas5Test
         public void IsPossibleRaise_ShouldReturnTrue_WhenAmmountOfHandledTasksIsGreaterThan20(int ammount)
         {
             // Arrange
-            var user = new User(new List<UserRole> { UserRole.EMPLOYEE }, "John", "Doe", "john@example.com", "123456789");
+            var user = new User();
 
             // Act
             var result = user.IsPossibleRaise(ammount);

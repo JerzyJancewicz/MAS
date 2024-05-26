@@ -1,8 +1,12 @@
-﻿using MAS5.Models.CustomValidators.UserCM;
+﻿using MAS5.Models.CarM;
+using MAS5.Models.CarServiceM;
+using MAS5.Models.CustomValidators.UserCM;
+using MAS5.Models.OwnerM;
 using MAS5.Models.ReservationM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MAS5.Models.UserM
@@ -30,55 +34,56 @@ namespace MAS5.Models.UserM
 
         private string? _driverLicenseId;
         private string? _jobTitle;
-        private readonly List<UserRole> userRoles;
+        private readonly List<UserRole> userRoles = new List<UserRole>();
 
         private HashSet<Reservation> _reservations = new HashSet<Reservation>();
 
-        public User(List<UserRole> roles, string name, string surname, string email, string phoneNumber, string driverLicenseId = null, string jobTitle = null)
+        public HashSet<Reservation> Reservations
         {
-            if (roles.Count == 0)
-            {
-                throw new ArgumentException("User does not have any role assigned");
-            }
-            userRoles = roles;
-            Name = name;
-            Surname = surname;
-            Email = email;
-            PhoneNumber = phoneNumber;
+            get => _reservations;
+        }
 
-            if (userRoles.Contains(UserRole.CLIENT) && driverLicenseId != null)
+        public void AddRole(UserRole role)
+        {
+            if (!userRoles.Contains(role))
             {
-                DriverLicenseId = driverLicenseId;
-            }
-
-            if (userRoles.Contains(UserRole.EMPLOYEE) && jobTitle != null)
-            {
-                JobTitle = jobTitle;
+                userRoles.Add(role);
             }
         }
-        public ReadOnlyCollection<Reservation> Reservations
+
+        public void RemoveRole(UserRole role)
         {
-            get { return new ReadOnlyCollection<Reservation>(_reservations.ToList()); }
+            if (userRoles.Contains(role))
+            {
+                userRoles.Remove(role);
+            }
         }
+
         public void AddReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
-            _reservations.Add(reservation);
-            reservation.AddUserReference(this);
+            if (!Reservations.Contains(reservation))
+            {
+                _reservations.Add(reservation);
+                reservation.AddUserReference(this);
+            }            
         }
 
         public void RemoveReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
-            _reservations.Remove(reservation);
-            reservation.RemoveUserReference();
+            if (Reservations.Contains(reservation))
+            {
+                _reservations.Remove(reservation);
+                reservation.RemoveUserReference();
 
-            reservation.Car.RemoveReservation(reservation);
-            reservation.RemoveCarReference();
+                reservation.Car.RemoveReservation(reservation);
+                reservation.RemoveCarReference();
+            }                
         }
 
         [CustomStringLength(maximumLength: 40, minimumLength: 4, ErrorMessage = "DriverLicenseId should contain at least 4 and maximum 40 characters")]
-        public string DriverLicenseId
+        public string? DriverLicenseId
         {
             get
             {
@@ -88,7 +93,7 @@ namespace MAS5.Models.UserM
                 }
                 else
                 {
-                    return null;
+                    return string.Empty;
                 }
             }
             set
@@ -105,7 +110,7 @@ namespace MAS5.Models.UserM
         }
 
         [CustomStringLength(maximumLength: 50, minimumLength: 2, ErrorMessage = "JobTitle should contain at least 2 and maximum 50 characters")]
-        public string JobTitle
+        public string? JobTitle
         {
             get
             {
@@ -115,7 +120,7 @@ namespace MAS5.Models.UserM
                 }
                 else
                 {
-                    return null;
+                    return string.Empty;
                 }
             }
             set

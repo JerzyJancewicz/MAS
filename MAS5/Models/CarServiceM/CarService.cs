@@ -13,6 +13,7 @@ namespace MAS5.Models.CarServiceM
     {
         [Key]
         public int Id { get; set; }
+        public int CarId { get; set; }
 
         [Required(ErrorMessage = "ServiceDate is required")]
         [DataType(DataType.DateTime)]
@@ -33,10 +34,6 @@ namespace MAS5.Models.CarServiceM
 
         private Car? _car;
 
-        public CarService(Car car)
-        {
-            AddCarReference(car); 
-        }
         public  Car Car
         {
             get => _car;
@@ -46,28 +43,11 @@ namespace MAS5.Models.CarServiceM
             }
         }
 
-     /*   public void RemoveReference()
-        {
-            if (_owner != null)
-            {
-                _owner.RemoveCar(this);
-            }
-            _owner = null;
-        }
-
-        public void AddOwnerReference(Owner owner)
-        {
-            if (owner == null) { throw new ArgumentNullException(); }
-            _owner = owner;
-            owner.AddCar(this);
-        }*/
-
         public void RemoveCarReference()
         {
             if (_car == null) { throw new ArgumentNullException(); }
             _car.RemoveCarServiceReference(this);
 
-            // todo
             foreach (var reservation in _car.Reservations)
             {
                 _car.RemoveReservation(reservation);

@@ -19,23 +19,29 @@ namespace MAS5.Models.OwnerM
 
         private HashSet<Car> _cars = new HashSet<Car>();
 
-        public ReadOnlyCollection<Car> Cars
+        public HashSet<Car> Cars
         {
-            get { return new ReadOnlyCollection<Car>(_cars.ToList()); }
+            get => _cars;
         }
 
         public void AddCar(Car car)
         {
             if (car == null) { throw new ArgumentNullException(); }
-            _cars.Add(car);
-            car.AddOwnerReference(this);
+            if (!Cars.Contains(car)) 
+            {
+                _cars.Add(car);
+                car.AddOwnerReference(this);
+            }            
         }
 
         public void RemoveCar(Car car)
         {
             if (car == null) { throw new ArgumentNullException(); }
-            _cars.Remove(car);
-            car.RemoveReference();
+            if (Cars.Contains(car))
+            {
+                _cars.Remove(car);
+                car.RemoveReference();
+            }             
         }
     }
 }

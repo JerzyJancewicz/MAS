@@ -3,6 +3,7 @@ using MAS5.Models.OwnerM;
 using MAS5.Models.ReservationM;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAS5.Models.CarM
 {
@@ -10,6 +11,7 @@ namespace MAS5.Models.CarM
     {
         [Key]
         public int Id { get; set; }
+        public int OwnerId { get; set; }
 
         [Required(ErrorMessage = "Model is required")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Model should contain at least 2 and maximum 20 characters")]
@@ -36,44 +38,56 @@ namespace MAS5.Models.CarM
             }
         }
 
-        public ReadOnlyCollection<CarService> CarServices
+        public HashSet<CarService> CarServices
         {
-            get => new ReadOnlyCollection<CarService>(_carServices.ToList());
+            get => _carServices;
         }
-        public ReadOnlyCollection<Reservation> Reservations
+        public HashSet<Reservation> Reservations
         {
-            get { return new ReadOnlyCollection<Reservation>(_reservations.ToList()); }
+            get => _reservations;
         }
 
         public void RemoveCarServiceReference(CarService carService)
         {
             if (carService == null) { throw new ArgumentNullException(); }
-            _carServices.Remove(carService);
-            carService.RemoveCarReference();
+            if (CarServices.Contains(carService))
+            {
+                _carServices.Remove(carService);
+                carService.RemoveCarReference();
+            }              
         }
 
         public void AddCarServiceReference(CarService carService) 
         {
             if (carService == null) { throw new ArgumentNullException(); }
-            _carServices.Add(carService);
-            carService.AddCarReference(this);
+            if (!CarServices.Contains(carService)) 
+            {
+                _carServices.Add(carService);
+                carService.AddCarReference(this);
+            }
         }
 
         public void AddReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
-            _reservations.Add(reservation);
-            reservation.AddCarReference(this);
+            if (!Reservations.Contains(reservation))
+            {
+                _reservations.Add(reservation);
+                reservation.AddCarReference(this);
+            }            
         }
 
         public void RemoveReservation(Reservation reservation)
         {
             if (reservation == null) { throw new ArgumentNullException(); }
-            _reservations.Remove(reservation);
-            reservation.RemoveCarReference();
+            if (Reservations.Contains(reservation))
+            {
+                _reservations.Remove(reservation);
+                reservation.RemoveCarReference();
 
-            reservation.User.RemoveReservation(reservation);
-            reservation.RemoveUserReference();
+                reservation.User.RemoveReservation(reservation);
+                reservation.RemoveUserReference();
+            }                
         }
 
         public void RemoveReference()

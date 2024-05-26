@@ -19,33 +19,11 @@ namespace Mas5Test
             return results;
         }
 
-        // TODO: Chnge it to work properly
-        /*[Fact]
-        public void Service_ShouldHaveProperlyFormattedDate()
-        {
-            // Arrange
-            var car = new Car();
-
-            var service = new Service(car)
-            {
-                Name = "Test",
-                Description = "Test Description"
-            };
-
-            // Act
-            var formattedDateTime = service.ServiceDate;
-
-            // Assert
-            var currentDateTime = DateTime.Now.ToLocalTime();
-            Assert.Equal(currentDateTime, formattedDateTime);
-        }*/
-
         [Fact]
         public void Service_ShouldBeInvalid_WhenNameIsNull()
         {
             // Arrange
-            var car = new Car();
-            var service = new CarService(car)
+            var service = new CarService()
             {
                 Name = null,
                 Description = "Test Description"
@@ -63,8 +41,7 @@ namespace Mas5Test
         public void Service_ShouldBeInvalid_WhenNameIsTooShort()
         {
             // Arrange
-            var car = new Car();
-            var service = new CarService(car)
+            var service = new CarService()
             {
                 Name = "A", // Invalid: too short
                 Description = "Test Description"
@@ -82,8 +59,7 @@ namespace Mas5Test
         public void Service_ShouldBeInvalid_WhenDescriptionIsTooLong()
         {
             // Arrange
-            var car = new Car();
-            var service = new CarService(car)
+            var service = new CarService()
             {
                 Name = "Valid Name",
                 Description = new string('A', 251) // Invalid: too long
@@ -101,8 +77,7 @@ namespace Mas5Test
         public void Service_ShouldBeValid_WhenAllPropertiesAreValid()
         {
             // Arrange
-            var car = new Car();
-            var service = new CarService(car)
+            var service = new CarService()
             {
                 Name = "Valid Name",
                 Description = "Valid Description"

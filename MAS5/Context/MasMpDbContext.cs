@@ -12,10 +12,8 @@ namespace MAS5.Context
         public MasMpDbContext(DbContextOptions<MasMpDbContext> options):base(options) {}
 
         public DbSet<User> Users { get; set; }
-        public DbSet<IEmployee> Employees { get; set; }
-        public DbSet<IClient> Clients { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<CarService> CarServices { get; set; } 
         public DbSet<Owner> Owners { get; set; }
 
@@ -23,32 +21,33 @@ namespace MAS5.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IEmployee>().HasBaseType<User>();
-            modelBuilder.Entity<IClient>().HasBaseType<User>();
-
-            // User 1 - 0..* Reservation
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.User)
-                .WithMany(u => u.Reservations)
-                .HasForeignKey(r => r.Id);
-
-            // Car 1 - 0..* Reservation
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.Car)
-                .WithMany(c => c.Reservations)
-                .HasForeignKey(r => r.Id);
-
-            // Car 1 - 0..* CarService
-            modelBuilder.Entity<CarService>()
-                .HasOne(cs => cs.Car)
-                .WithMany(c => c.CarServices)
-                .HasForeignKey(cs => cs.Id);
+            modelBuilder.Entity<User>()
+            .HasDiscriminator<string>("UserRole")
+            .HasValue<User>("User");
 
             // Car 1..* - 1 Owner
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Owner)
                 .WithMany(o => o.Cars)
-                .HasForeignKey(c => c.Id);
+                .HasForeignKey(c => c.OwnerId);
+
+            // User 1 - 0..* Reservation
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reservations)
+                .HasForeignKey(r => r.UserId);
+
+            // Car 1 - 0..* Reservation
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Reservations)
+                .HasForeignKey(r => r.CarId);
+
+            // Car 1 - 0..* CarService
+            modelBuilder.Entity<CarService>()
+                .HasOne(cs => cs.Car)
+                .WithMany(c => c.CarServices)
+                .HasForeignKey(cs => cs.CarId);           
         }
     }
 }

@@ -8,6 +8,9 @@ namespace MAS5.Models.ReservationM
     {
         [Key]
         public int Id { get; set; }
+        public int CarId { get; set; }
+        public int UserId { get; set; }
+
 
         [Required(ErrorMessage = "Name is required")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Name should contain at least 2 and maximum 50 characters")]
@@ -26,18 +29,8 @@ namespace MAS5.Models.ReservationM
         )]
         public DateTime ReservationDate { get; set; } = DateTime.Now.ToLocalTime();
 
-        private Car? _car;
-        private User? _user;
-
-        public Reservation(Car car, User user)
-        {
-            if (car == null || user == null) { throw new ArgumentNullException(); }
-            _car = car;
-            _user = user;
-
-            _car.AddReservation(this);
-            _user.AddReservation(this);
-        }
+        private Car _car;
+        private User _user;
 
         public Car Car
         {
