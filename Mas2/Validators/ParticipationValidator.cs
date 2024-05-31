@@ -13,21 +13,21 @@ namespace Mas2.Validators
         {
             if (value == null)
             {
-                throw new ArgumentNullException("Topic can not be null");
+                throw new ArgumentNullException("Lesson can not be null");
             }
         }
         public static void ValidateTeacher(Teacher? value)
         {
             if (value == null)
             {
-                throw new ArgumentNullException("Topic can not be null");
+                throw new ArgumentNullException("Teacher can not be null");
             }
         }
         public static void ValidateDate(DateTime? value)
         {
             if (value == null)
             {
-                throw new ArgumentNullException("Topic can not be null");
+                throw new ArgumentNullException("DateTime can not be null");
             }
             if (value.HasValue)
             {
@@ -46,7 +46,7 @@ namespace Mas2.Validators
 
             if (value == null)
             {
-                throw new ArgumentNullException("Topic can not be null");
+                throw new ArgumentNullException("status can not be null");
             }
             if (!statusList.Contains(value.ToLower().Trim()))
             {

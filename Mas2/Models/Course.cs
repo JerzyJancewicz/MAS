@@ -65,25 +65,30 @@ namespace Mas2.Models
         public void AddLesson(Lesson lesson)
         {
             CourseValidator.ValidateLesson(lesson);
-            _lessons.Add(lesson);
-            lesson.Course = this;
-            
+            if (!_lessons.Contains(lesson)) 
+            {
+                _lessons.Add(lesson);
+                lesson.AddCourse(this);
+            }            
         }
         public void RemoveLesson(Lesson lesson)
         {
             CourseValidator.ValidateLesson(lesson);
-            foreach(var student in lesson.Students.ToList())
+            if (_lessons.Contains(lesson)) 
             {
-                student.RemoveLesson(lesson);
-            }
+                foreach (var student in lesson.Students.ToList())
+                {
+                    student.RemoveLesson(lesson);
+                }
 
-            foreach (var participation in lesson.Participations.ToList())
-            {
-                lesson.RemoveParticipation(participation);
-            }
+                foreach (var participation in lesson.Participations.ToList())
+                {
+                    lesson.RemoveParticipation(participation);
+                }
 
-            lesson.Course = null;
-            _lessons.Remove(lesson);
+                lesson.RemoveCourse();
+                _lessons.Remove(lesson);
+            }
         }
     }
 }

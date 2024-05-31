@@ -6,7 +6,7 @@ namespace Mas2
     {
         static void Main(string[] args)
         {
-            Course course = new Course("Test1", "Desc1");
+            /*Course course = new Course("Test1", "Desc1");
 
             Lesson lesson = new Lesson("History", 45, course);
             Teacher teacher = new Teacher("Marek", "Konieczny", "marek.k@email.com");
@@ -20,7 +20,7 @@ namespace Mas2
             student.AddLesson(lesson);
             lesson.AddStudent(student);
 
-            student.AddGrade(grade2);
+            student.AddGrade(grade2);*/
         }
     }
 }

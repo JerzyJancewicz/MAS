@@ -74,15 +74,24 @@ namespace Mas2.Models
         public void AddParticipation(Participation participation)
         {
             TeacherValidator.ValidateParticipation(participation);
-            _participations.Add(participation);
-            participation.Teacher = this;
+            if (!_participations.Contains(participation)) 
+            {
+                _participations.Add(participation);
+                participation.AddTeacher(this);
+            }
         }
 
         public void RemoveParticipation(Participation participation)
         {
             TeacherValidator.ValidateParticipation(participation);
-            _participations.Remove(participation);
-            participation.Teacher = null;
+            if (_participations.Contains(participation))
+            {
+                _participations.Remove(participation);
+                participation.RemoveTeacher();
+
+                participation.Lesson?.RemoveParticipation(participation);
+                participation.RemoveLesson();
+            }
         }
     }
 }

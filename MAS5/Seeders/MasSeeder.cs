@@ -4,6 +4,7 @@ using MAS5.Models.CarServiceM;
 using MAS5.Models.OwnerM;
 using MAS5.Models.ReservationM;
 using MAS5.Models.UserM;
+using Microsoft.EntityFrameworkCore;
 
 namespace MAS5.Seeders
 {

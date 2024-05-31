@@ -32,30 +32,26 @@ namespace Mas2.Models
             _lesson.AddParticipation(this);
         }
 
-        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Teacher? Teacher
         {
             get
             {
-                ParticipationValidator.ValidateTeacher(_teacher);
                 return _teacher;
             }
-            set
+            private set
             {
                 _teacher = value; 
             }
         }
 
-        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Lesson? Lesson
         {
             get
             {
-                ParticipationValidator.ValidateLesson(_lesson);
                 return _lesson;
             } 
-            set
-            { 
+            private set
+            {
                 _lesson = value;
             }
         }
@@ -85,6 +81,31 @@ namespace Mas2.Models
                 ParticipationValidator.ValidateStatus(_status);
                 _status = value; 
             }
+        }
+
+        public void RemoveTeacher()
+        {
+            if(_teacher != null)
+            _teacher.RemoveParticipation(this);
+            _teacher = null;
+        }
+        public void AddTeacher(Teacher teacher)
+        {
+            ParticipationValidator.ValidateTeacher(teacher);
+            _teacher = teacher;
+            teacher.AddParticipation(this);
+        }
+        public void RemoveLesson()
+        {
+            if (_lesson != null)
+            _lesson.RemoveParticipation(this);
+            _lesson = null;
+        }
+        public void AddLesson(Lesson lesson)
+        {
+            ParticipationValidator.ValidateLesson(lesson);
+            lesson.AddParticipation(this);
+            _lesson = lesson;
         }
     }
 }

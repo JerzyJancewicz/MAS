@@ -80,15 +80,21 @@ namespace Mas2.Models
         public void AddLesson(Lesson lesson)
         {
             StudentValidator.ValidateLesson(lesson);
-            _lessons.Add(lesson);
-            lesson.AddStudent(this);
+            if (!_lessons.Contains(lesson))
+            {
+                _lessons.Add(lesson);
+                lesson.AddStudent(this);
+            }
         }
 
         public void RemoveLesson(Lesson lesson)
         {
             StudentValidator.ValidateLesson(lesson);
-            _lessons.Remove(lesson);
-            lesson = null;
+            if (_lessons.Contains(lesson)) 
+            {
+                _lessons.Remove(lesson);
+                lesson.RemoveStudent(this);
+            }
         }
     }
 }

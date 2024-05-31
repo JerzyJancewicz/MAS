@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mas2", "Mas2.csproj", "{E589CE5C-1659-4371-AA1D-BE70DC659233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mas2", "Mas2.csproj", "{E589CE5C-1659-4371-AA1D-BE70DC659233}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mas2Tests", "..\Mas2Tests\Mas2Tests.csproj", "{08528E3C-030F-48D1-9776-BBD15393411A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E589CE5C-1659-4371-AA1D-BE70DC659233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E589CE5C-1659-4371-AA1D-BE70DC659233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E589CE5C-1659-4371-AA1D-BE70DC659233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08528E3C-030F-48D1-9776-BBD15393411A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08528E3C-030F-48D1-9776-BBD15393411A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08528E3C-030F-48D1-9776-BBD15393411A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08528E3C-030F-48D1-9776-BBD15393411A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

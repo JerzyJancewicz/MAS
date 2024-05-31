@@ -52,7 +52,7 @@ namespace Mas2.Models
                 LessonValidator.ValidateCourse(_course);
                 return _course; 
             }
-            set
+            private set
             {
                 _course = value; 
             }
@@ -97,32 +97,58 @@ namespace Mas2.Models
         public void AddStudent(Student student)
         {
             LessonValidator.ValidateStudent(student);
-            _students.Add(student);
+            if (!_students.Contains(student)) 
+            {
+                _students.Add(student);
+                student.AddLesson(this);
+            }            
         }
 
         public void RemoveStudent(Student student)
         {
             LessonValidator.ValidateStudent(student);
-            _students.Remove(student);
-            student.AddLesson(this);
+            if (_students.Contains(student))
+            {
+                _students.Remove(student);
+                student.RemoveLesson(this);
+            }            
         }
         public void AddParticipation(Participation participation)
         {
             LessonValidator.ValidateParticipation(participation);
-            _participations.Add(participation);
-            participation.Lesson = this;
+            if (!_participations.Contains(participation)) 
+            {
+                _participations.Add(participation);
+                participation.AddLesson(this);
+            }
         }
 
         public void RemoveParticipation(Participation participation)
         {
             LessonValidator.ValidateParticipation(participation);
-            if(participation.Teacher != null)
+            
+            if (_participations.Contains(participation))
             {
-                participation.Teacher.RemoveParticipation(participation);
+                _participations.Remove(participation);
+                participation.RemoveLesson();
+
+                participation.Teacher?.RemoveParticipation(participation);
+                participation.RemoveTeacher();
             }
-            participation.Teacher = null;
-            participation.Lesson = null;
-            _participations.Remove(participation);
+        }
+
+        public void RemoveCourse()
+        {
+            if(_course != null)
+            _course.RemoveLesson(this);
+            _course = null;
+        }
+
+        public void AddCourse(Course course) 
+        {
+            LessonValidator.ValidateCourse(course);
+            _course = course;
+            course.AddLesson(this);
         }
     }
 }
