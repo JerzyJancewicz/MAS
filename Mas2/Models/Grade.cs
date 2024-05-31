@@ -54,7 +54,6 @@ namespace Mas2.Models
             _student.AddGrade(this);
         }
 
-        // BŁĄD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Student? Student
         {
             get
@@ -62,7 +61,7 @@ namespace Mas2.Models
                 GradeValidator.ValidateStudent(_student);
                 return _student; 
             }
-            set
+            private set
             {
                 _student = value; 
             }
@@ -106,6 +105,22 @@ namespace Mas2.Models
                 GradeValidator.ValidateLessonName(value);
                 _lessonName = value;
             }
+        }
+
+        public void AddStudent(Student student)
+        {
+            GradeValidator.ValidateStudent(student);
+            _student = student;
+            student.AddGrade(this);
+        }
+
+        public void RemoveStudent()
+        {
+            if (_student != null)
+            {
+                _student.RemoveGrade(this);
+            }
+            _student = null;
         }
     }
 }

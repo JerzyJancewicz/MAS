@@ -65,16 +65,22 @@ namespace Mas2.Models
 
         public void AddGrade(Grade grade)
         {
-            StudentValidator.ValidateSameLessonName(_grades, grade.LessonName);
-            _grades.Add(grade.LessonName ,grade);
-            grade.Student = this;
+            if (!_grades.ContainsKey(grade.LessonName))
+            {
+                StudentValidator.ValidateSameLessonName(_grades, grade.LessonName);
+                _grades.Add(grade.LessonName, grade);
+                grade.AddStudent(this);
+            }
         }
 
         public void RemoveGrade(Grade grade)
         {
             StudentValidator.ValidateGrade(grade);
-            _grades.Remove(grade.LessonName);
-            grade.Student = null;
+            if (_grades.ContainsKey(grade.LessonName))
+            {
+                _grades.Remove(grade.LessonName);
+                grade.RemoveStudent();
+            }
         }
 
         public void AddLesson(Lesson lesson)

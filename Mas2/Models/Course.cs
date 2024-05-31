@@ -85,9 +85,8 @@ namespace Mas2.Models
                 {
                     lesson.RemoveParticipation(participation);
                 }
-
-                lesson.RemoveCourse();
                 _lessons.Remove(lesson);
+                lesson.RemoveCourse();
             }
         }
     }

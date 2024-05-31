@@ -44,12 +44,10 @@ namespace Mas2.Models
             get { return new ReadOnlyCollection<string>(_topics.ToList()); }
         }
 
-        // BŁĄD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Course? Course
         {
             get
             {
-                LessonValidator.ValidateCourse(_course);
                 return _course; 
             }
             private set
@@ -139,9 +137,21 @@ namespace Mas2.Models
 
         public void RemoveCourse()
         {
-            if(_course != null)
-            _course.RemoveLesson(this);
-            _course = null;
+            if (_course != null)
+            {
+                foreach (var student in _students.ToList())
+                {
+                    RemoveStudent(student);
+                }
+
+                foreach (var participation in _participations.ToList())
+                {
+                    RemoveParticipation(participation);
+                }
+
+                _course.RemoveLesson(this);
+                _course = null;
+            }
         }
 
         public void AddCourse(Course course) 
