@@ -16,6 +16,7 @@ namespace MAS4.Models
 
         public Manager(string name)
         {
+            if (name == null) { throw new ArgumentNullException(); }
             _name = name;
         }
 
@@ -54,7 +55,10 @@ namespace MAS4.Models
             {
                 foreach (var product in _products)
                 {
-                    product.RemoveManager();
+                    if (_products.Contains(product)) 
+                    {
+                        product.RemoveManager();
+                    }
                 }
                 _products = null;
             }
@@ -65,7 +69,10 @@ namespace MAS4.Models
             {
                 foreach (var worker in _workers)
                 {
-                    worker.RemoveManager();
+                    if (_workers.Contains(worker)) 
+                    {
+                        worker.RemoveManager();
+                    }
                 }
                 _workers = null;
             }
@@ -78,7 +85,7 @@ namespace MAS4.Models
             {
                 throw new InvalidOperationException();
             }
-            if(_products != null)
+            if(_products != null && !_products.Contains(product))
             {
                 _products.Add(product);
                 product.AddManager(this);
@@ -91,7 +98,7 @@ namespace MAS4.Models
             {
                 throw new InvalidOperationException();
             }
-            if (_workers != null)
+            if (_workers != null && !_workers.Contains(worker))
             {
                 _workers.Add(worker);
                 worker.AddManager(this);
@@ -104,7 +111,7 @@ namespace MAS4.Models
             {
                 throw new InvalidOperationException();
             }
-            if (_products != null)
+            if (_products != null && _products.Contains(product))
             {
                 _products.Remove(product);
                 product.RemoveManager();
@@ -117,20 +124,20 @@ namespace MAS4.Models
             {
                 throw new InvalidOperationException();
             }
-            if (_workers != null)
+            if (_workers != null && _workers.Contains(worker))
             {
                 _workers.Remove(worker);
                 worker.RemoveManager();
             }
         }
 
-        public ReadOnlyCollection<Product> Products
+        public HashSet<Worker> Workers 
         {
-            get => new ReadOnlyCollection<Product>(_products.ToList());
+            get => _workers!;
         }
-        public ReadOnlyCollection<Worker> Workers
+        public HashSet<Product> Products 
         {
-            get => new ReadOnlyCollection<Worker>(_workers.ToList());
+            get => _products!;
         }
     }
 }

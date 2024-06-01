@@ -29,14 +29,62 @@ namespace MAS4.Models
         {
             if (manager == null) { throw new ArgumentNullException(); }
             _manager = manager;
+            manager.AddWorker(this);
         }
         public void RemoveManager()
         {
+            if (_manager != null)
+            {
+                _manager.RemoveWorker(this);
+            }
             _manager = null;
+        }
+        public void AddAssignedTeam(Team team) 
+        {
+            if (team == null) { throw new ArgumentNullException("value can not be null"); }
+            if (!_assignedTeams.Contains(team))
+            {
+                _assignedTeams.Add(team);
+                team.AssignWorker(this);
+            }
+        }
+        public void AddManagingTeam(Team team)
+        {
+            if (team == null) { throw new ArgumentNullException("value can not be null"); }
+            if (!_assignedTeams.Contains(team))
+            {
+                throw new InvalidOperationException("Worker must be assigned to the team before being a manager");
+            }
+            if (!_managedTeams.Contains(team))
+            {
+                _managedTeams.Add(team);
+                team.AssignManager(this);
+            }
+        }
+        public void RemoveAssignedTeam(Team team)
+        {
+            if (team == null) { throw new ArgumentNullException("value can not be null"); }
+            if (_assignedTeams.Contains(team))
+            {
+                _assignedTeams.Remove(team);
+                team.RemoveWorker(this);
+                _managedTeams.Remove(team);
+                team.RemoveManager(this);
+            }
+        }
+        public void RemoveManagingTeam(Team team)
+        {
+            if (team == null) { throw new ArgumentNullException("value can not be null"); }
+            if (_managedTeams.Contains(team))
+            {
+                _managedTeams.Remove(team);
+                team.RemoveManager(this);
+            }
         }
         public Manager Manager
         {
-            get => _manager;
+            get => _manager!;
+            private set => _manager = value;
         }
         public HashSet<Team> AssignedTeams
         {

@@ -3,7 +3,7 @@ using Mas2.Models;
 using Mas2.Validators;
 using System.Linq;
 
-namespace Mas2.Tests
+namespace Mas2Tests
 {
     public class StudentLessonAssociationTests
     {

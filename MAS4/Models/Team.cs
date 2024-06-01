@@ -33,20 +33,23 @@ namespace MAS4.Models
         public void AssignWorker(Worker worker)
         {
             if (worker == null){ throw new ArgumentNullException("value can not be null"); }
-            _assignedWorkers.Add(worker);
-            worker.AssignedTeams.Add(this);
+            if (!_assignedWorkers.Contains(worker)) 
+            {
+                _assignedWorkers.Add(worker);
+                worker.AddAssignedTeam(this);
+            }
         }
 
         public void RemoveWorker(Worker worker)
         {
             if (worker == null) { throw new ArgumentNullException("value can not be null"); }
-            if (_managingWorkers.Contains(worker))
+            if (_assignedWorkers.Contains(worker))
             {
                 _managingWorkers.Remove(worker);
-                worker.ManagedTeams.Remove(this);
-            }
-            _assignedWorkers.Remove(worker);
-            worker.AssignedTeams.Remove(this);
+                worker.RemoveManagingTeam(this);
+                _assignedWorkers.Remove(worker);
+                worker.RemoveAssignedTeam(this);
+            }            
         }
 
         public void AssignManager(Worker worker)
@@ -56,8 +59,11 @@ namespace MAS4.Models
             {
                 throw new InvalidOperationException("Worker must be assigned to the team before being a manager");
             }
-            _managingWorkers.Add(worker);
-            worker.ManagedTeams.Add(this);
+            if (!_managingWorkers.Contains(worker)) 
+            {
+                _managingWorkers.Add(worker);
+                worker.AddManagingTeam(this);
+            }
         }
 
         public void RemoveManager(Worker worker)
@@ -66,7 +72,7 @@ namespace MAS4.Models
             if (_managingWorkers.Contains(worker))
             {
                 _managingWorkers.Remove(worker);
-                worker.ManagedTeams.Remove(this);
+                worker.RemoveManagingTeam(this);
             }
         }
     }

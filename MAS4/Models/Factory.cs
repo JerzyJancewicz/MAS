@@ -11,7 +11,7 @@ namespace MAS4.Models
         private string _factoryName;
         private string _location;
 
-        private List<Machine> machines = new List<Machine>();
+        private HashSet<Machine> machines = new HashSet<Machine>();
         public Factory(string factoryName, string location)
         {
             _factoryName = factoryName;
@@ -28,7 +28,7 @@ namespace MAS4.Models
             get => _location;
             set => _location = value ?? throw new ArgumentNullException("value can not be null");
         }
-        public List<Machine> Machines 
+        public HashSet<Machine> Machines 
         {
             get => machines;
         }
@@ -36,13 +36,21 @@ namespace MAS4.Models
         public void AddMachine(Machine machine)
         {
             if (machine == null) { throw new ArgumentNullException("value can not be null"); }
-            machines.Add(machine);
-            machines.Sort((x, y) => x.Name.CompareTo(y.Name));
+            if (!machines.Contains(machine))
+            {
+                machines.Add(machine);
+                machines.ToList().Sort((x, y) => x.Name.CompareTo(y.Name));
+                machine.AddFactory(this);
+            }
         }
         public void RemoveMachine(Machine machine)
         {
             if (machine == null) { throw new ArgumentNullException("value can not be null"); }
-            machines.Remove(machine);
+            if (machines.Contains(machine)) 
+            {
+                machines.Remove(machine);
+                machine.RemoveFactory();
+            }
         }
     }
 }

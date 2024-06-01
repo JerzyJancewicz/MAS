@@ -22,6 +22,7 @@ namespace MAS4.Models
 
         public Product(string serialNumber, string name, double price)
         {
+            if (serialNumber == null || name == null) { throw new ArgumentNullException(); }
             _serialNumber = serialNumber;
             _name = name;
             _price = price;
@@ -49,14 +50,20 @@ namespace MAS4.Models
         {
             if (manager == null) { throw new ArgumentNullException(); }
             _manager = manager;
+            manager.AddProduct(this);
         }
         public void RemoveManager()
         {
+            if (_manager != null) 
+            {
+                _manager.RemoveProduct(this);
+            }
             _manager = null;
         }
         public Manager Manager 
         {
-            get => _manager;
+            get => _manager!;
+            private set => _manager = value;
         }
 
         public string Name

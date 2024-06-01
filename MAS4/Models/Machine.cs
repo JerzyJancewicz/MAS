@@ -16,10 +16,18 @@ namespace MAS4.Models
 
         private List<ProductionRecord> _productionRecords = new List<ProductionRecord>(); 
         private List<SparePart> _spareParts = new List<SparePart>();
+        private Factory? _factory;
         public Machine(string type, string name)
         {
+            if (type == null || name == null) { throw new ArgumentNullException("values can not be null"); }
             _type = type;
             _name = name;
+        }
+
+        public Factory Factory 
+        {
+            get => _factory!;
+            private set => _factory = value;
         }
 
         public string Name
@@ -31,6 +39,22 @@ namespace MAS4.Models
         {
             get => _type;
             set => _type = value ?? throw new ArgumentNullException("value can not be null");
+        }
+
+        public void AddFactory(Factory factory)
+        {
+            if (factory == null) throw new ArgumentNullException("value can not be null");
+            _factory = factory;
+            factory.AddMachine(this);
+        }
+
+        public void RemoveFactory()
+        {
+            if (_factory != null) 
+            {
+                _factory.RemoveMachine(this);
+            }
+            _factory = null;
         }
 
         public void AddProductionRecord(ProductionRecord productionRecords)
