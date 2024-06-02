@@ -10,23 +10,39 @@ namespace MAS4.Models
     {
         private string _name;
         public double Weight { get; set; }
+        public int Ammount { get; set; }
         public double Price { get; set; }
 
-        private List<Machine> _machines = new List<Machine>();
-        public SparePart(string name, double weight, double price)
+        private HashSet<Machine> _machines = new HashSet<Machine>();
+        public SparePart(string name, double weight, double price, int ammount)
         {
+            if (name == null) { throw new ArgumentNullException(); }
             _name = name;
             Price = price;
             Weight = weight;
+            Ammount = ammount;
+        }
+        public void AddMachine(Machine machine) 
+        {
+            if (machine == null) { throw new ArgumentNullException(); }
+            if (!_machines.Contains(machine)) 
+            {
+                _machines.Add(machine);
+                machine.AddSparePart(this);
+            }
         }
 
         public void RemoveMachine(Machine machine) 
         {
             if (machine == null) { throw new ArgumentNullException(); }
-            _machines.Remove(machine);
+            if (_machines.Contains(machine))
+            {
+                _machines.Remove(machine);
+                machine.RemoveSparePart(this);
+            }
         }
 
-        public List<Machine> Machines
+        public HashSet<Machine> Machines
         {
             get => _machines;
         }

@@ -15,7 +15,7 @@ namespace MAS4.Models
         private readonly List<string> _types = new List<string>() { "CMS", "DPS" };
 
         private List<ProductionRecord> _productionRecords = new List<ProductionRecord>(); 
-        private List<SparePart> _spareParts = new List<SparePart>();
+        private HashSet<SparePart> _spareParts = new HashSet<SparePart>();
         private Factory? _factory;
 
         private bool _isProductionRecordRemoved = false;
@@ -90,7 +90,7 @@ namespace MAS4.Models
         public void AddSparePart(SparePart sparePart)
         {
             if (sparePart == null) { throw new ArgumentNullException(); }
-            if (_spareParts != null)
+            if (_spareParts != null && !_spareParts.Contains(sparePart))
             {
                 if (!_types.Contains(this.Type))
                 {
@@ -103,13 +103,20 @@ namespace MAS4.Models
         public void RemoveSparePart(SparePart sparePart)
         {
             if (sparePart == null) { throw new ArgumentNullException(); }
-            _spareParts.Remove(sparePart);
-            sparePart.RemoveMachine(this);
+            if (_spareParts.Contains(sparePart)) 
+            {
+                _spareParts.Remove(sparePart);
+                sparePart.RemoveMachine(this);
+            }
         }
 
         public List<ProductionRecord> ProductionRecords
         {
             get => _productionRecords;
+        }
+        public HashSet<SparePart> SpareParts 
+        {
+            get => _spareParts;
         }
     }
 }
