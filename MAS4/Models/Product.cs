@@ -17,6 +17,9 @@ namespace MAS4.Models
         private List<ProductionRecord> _productionRecords = new List<ProductionRecord>();
         private Manager? _manager;
 
+        private bool _isProductionRecordRemoved = false;
+        private bool _isProductionRecordAdded = false;
+
         private static readonly int MAX_NAME_LENGTH = 50;
         private static readonly double MAX_PRICE_CHANGE = 1.2;
 
@@ -33,17 +36,26 @@ namespace MAS4.Models
         public void AddProductionRecord(ProductionRecord productionRecords)
         {
             if (productionRecords == null) { throw new ArgumentNullException(); }
-            _productionRecords.Add(productionRecords);
-            productionRecords.AddProductReference(this);
+            if (!_isProductionRecordAdded) 
+            {
+                _isProductionRecordAdded = true;
+                _productionRecords.Add(productionRecords);
+                productionRecords.AddProductReference(this);
+            }
+            _isProductionRecordAdded = false;
         }
 
         public void RemoveProductionRecord(ProductionRecord productionRecord)
         {
             if (productionRecord == null) { throw new ArgumentNullException(); }
-            if (_productionRecords.Contains(productionRecord))
+            if (!_isProductionRecordRemoved)
             {
+                _isProductionRecordRemoved = true;
                 _productionRecords.Remove(productionRecord);
+                productionRecord.Machine?.RemoveProductionRecord(productionRecord);
+                productionRecord.RemoveMachineReference();
                 productionRecord.RemoveProductReference();
+                _isProductionRecordRemoved = false;
             }
         }
         public void AddManager(Manager manager) 
@@ -113,6 +125,11 @@ namespace MAS4.Models
         public static ReadOnlyCollection<string> SerialNumbers
         {
             get => new ReadOnlyCollection<string>(_serialNumbers.ToList());
+        }
+
+        public List<ProductionRecord> ProductionRecords 
+        {
+            get => _productionRecords;
         }
     }
 }

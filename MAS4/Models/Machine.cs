@@ -17,6 +17,10 @@ namespace MAS4.Models
         private List<ProductionRecord> _productionRecords = new List<ProductionRecord>(); 
         private List<SparePart> _spareParts = new List<SparePart>();
         private Factory? _factory;
+
+        private bool _isProductionRecordRemoved = false;
+        private bool _isProductionRecordAdded = false;
+
         public Machine(string type, string name)
         {
             if (type == null || name == null) { throw new ArgumentNullException("values can not be null"); }
@@ -60,17 +64,26 @@ namespace MAS4.Models
         public void AddProductionRecord(ProductionRecord productionRecords)
         {
             if (productionRecords == null) { throw new ArgumentNullException(); }
-            _productionRecords.Add(productionRecords);
-            productionRecords.AddMachineReference(this);
+            if (!_isProductionRecordAdded) 
+            {
+                _isProductionRecordAdded = true;
+                _productionRecords.Add(productionRecords);
+                productionRecords.AddMachineReference(this);
+            }
+            _isProductionRecordAdded = false;
         }
 
         public void RemoveProductionRecord(ProductionRecord productionRecord)
         {
             if (productionRecord == null) { throw new ArgumentNullException(); }
-            if (_productionRecords.Contains(productionRecord))
+            if (!_isProductionRecordRemoved)
             {
+                _isProductionRecordRemoved = true;
                 _productionRecords.Remove(productionRecord);
                 productionRecord.RemoveMachineReference();
+                productionRecord.Product?.RemoveProductionRecord(productionRecord);
+                productionRecord.RemoveProductReference();
+                _isProductionRecordRemoved = false;
             }
         }
 
@@ -92,6 +105,11 @@ namespace MAS4.Models
             if (sparePart == null) { throw new ArgumentNullException(); }
             _spareParts.Remove(sparePart);
             sparePart.RemoveMachine(this);
+        }
+
+        public List<ProductionRecord> ProductionRecords
+        {
+            get => _productionRecords;
         }
     }
 }

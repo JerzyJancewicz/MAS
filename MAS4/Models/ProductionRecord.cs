@@ -14,6 +14,9 @@ namespace MAS4.Models
         private Product? _product;
         private Machine? _machine;
 
+        private bool _isRemovingProduct = false;
+        private bool _isRemovingMachine = false; 
+
         public ProductionRecord(DateTime endDate, Product product, Machine machine)
         {
             _startDate = DateTime.UtcNow;
@@ -24,17 +27,20 @@ namespace MAS4.Models
             }
             _product = product;
             _machine = machine;
+            
         }
 
         public void AddProductReference(Product product)
         {
             if (product == null) { throw new ArgumentNullException(); }
             _product = product;
+            product.AddProductionRecord(this);
         }
         public void AddMachineReference(Machine machine)
         {
             if (machine == null) { throw new ArgumentNullException(); }
             _machine = machine;
+            machine.AddProductionRecord(this);
         }
         public DateTime StartDate
         {
@@ -55,13 +61,36 @@ namespace MAS4.Models
         }
         public void RemoveProductReference()
         {
-            _product = null;
+            if (_product != null && !_isRemovingProduct)
+            {
+                _isRemovingProduct = true;
+                var tempProduct = _product;
+                _product = null;
+                tempProduct.RemoveProductionRecord(this);
+                _isRemovingProduct = false;
+            }
         }
+
         public void RemoveMachineReference()
         {
-            _machine = null;
+            if (_machine != null && !_isRemovingMachine)
+            {
+                _isRemovingMachine = true;
+                var tempMachine = _machine;
+                _machine = null;
+                tempMachine.RemoveProductionRecord(this);
+                _isRemovingMachine = false;
+            }
         }
-        public Product Product { get { return _product; } }
-        public Machine Machine { get { return _machine; } }
+        public Product Product
+        { 
+            get { return _product!; }
+            private set { _product = value; }
+        }
+        public Machine Machine 
+        {
+            get { return _machine!; }
+            set => _machine = value;
+        }
     }
 }
